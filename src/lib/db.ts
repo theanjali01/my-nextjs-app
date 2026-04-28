@@ -90,8 +90,12 @@ export async function getAllDbPosts(): Promise<DbPost[]> {
 export async function getPublishedDbPosts(): Promise<DbPost[]> {
   const sql = getDb();
   if (!sql) return [];
-  const rows = await sql`SELECT * FROM blog_posts WHERE published = true ORDER BY created_at DESC`;
-  return rows as DbPost[];
+  try {
+    const rows = await sql`SELECT * FROM blog_posts WHERE published = true ORDER BY created_at DESC`;
+    return rows as DbPost[];
+  } catch {
+    return [];
+  }
 }
 
 export async function getDbPost(slug: string): Promise<DbPost | null> {

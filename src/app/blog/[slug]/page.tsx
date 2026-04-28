@@ -9,8 +9,12 @@ import ViewTracker from "@/components/ViewTracker";
 export const dynamic = "force-dynamic";
 
 export async function generateStaticParams() {
-  const posts = await getAllPosts();
-  return posts.map((p) => ({ slug: p.slug }));
+  try {
+    const posts = await getAllPosts();
+    return posts.map((p) => ({ slug: p.slug }));
+  } catch {
+    return [];
+  }
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
