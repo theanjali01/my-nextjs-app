@@ -15,34 +15,28 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
 
   return (
-    <nav className="fixed top-0 inset-x-0 z-50 border-b" style={{
-      background: "rgba(247,244,239,0.92)",
-      backdropFilter: "blur(12px)",
-      borderColor: "var(--sand)",
-    }}>
-      <div className="max-w-3xl mx-auto px-6 h-14 flex items-center justify-between">
-        <Link href="/" className="text-base tracking-wide" style={{
-          fontFamily: "var(--font-lora)",
-          color: "var(--ink)",
-          fontStyle: "italic",
-        }}>
-          Anjali Shrestha
-        </Link>
+    <nav className="nav">
+      <div className="nav-inner">
+        <Link href="/" className="nav-logo">Anjali Shrestha</Link>
 
-        <div className="hidden md:flex items-center gap-8">
+        {/* Desktop */}
+        <div className="nav-links" style={{ display: "flex" }}>
           {links.map((l) => (
-            <Link key={l.href} href={l.href} className="text-sm tracking-wide transition-colors" style={{
-              color: pathname === l.href ? "var(--terracotta)" : "var(--stone-dark)",
-              letterSpacing: "0.04em",
-            }}>
+            <Link key={l.href} href={l.href}
+              className={`nav-link${pathname === l.href ? " active" : ""}`}>
               {l.label}
             </Link>
           ))}
         </div>
 
-        <button className="md:hidden" onClick={() => setOpen(!open)} aria-label="Menu"
-          style={{ color: "var(--stone-dark)" }}>
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        {/* Mobile toggle — hidden on md+ via inline */}
+        <button
+          onClick={() => setOpen(!open)}
+          aria-label="Menu"
+          style={{ display: "none", color: "var(--stone-dark)", background: "none", border: "none", cursor: "pointer" }}
+          className="mobile-toggle"
+        >
+          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             {open
               ? <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
               : <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 6h16M4 12h16M4 18h16" />}
@@ -51,13 +45,16 @@ export default function Navbar() {
       </div>
 
       {open && (
-        <div className="md:hidden border-t px-6 py-5 flex flex-col gap-5" style={{
+        <div style={{
+          borderTop: "1px solid var(--sand)",
           background: "var(--cream)",
-          borderColor: "var(--sand)",
+          padding: "1.25rem 1.5rem",
+          display: "flex",
+          flexDirection: "column",
+          gap: "1.25rem",
         }}>
           {links.map((l) => (
-            <Link key={l.href} href={l.href} onClick={() => setOpen(false)}
-              className="text-sm tracking-wide" style={{ color: "var(--ink-light)", letterSpacing: "0.04em" }}>
+            <Link key={l.href} href={l.href} onClick={() => setOpen(false)} className="nav-link">
               {l.label}
             </Link>
           ))}

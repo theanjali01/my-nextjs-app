@@ -9,7 +9,7 @@ const lora = Lora({ variable: "--font-lora", subsets: ["latin"], style: ["normal
 
 export const metadata: Metadata = {
   title: "Anjali Shrestha",
-  description: "A journal of travel, presence, and small discoveries.",
+  description: "A journal of travel, presence, and small discoveries from Nepal.",
   openGraph: {
     title: "Anjali Shrestha",
     description: "A journal of travel, presence, and small discoveries.",
@@ -20,15 +20,11 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable} ${lora.variable}`}>
-      <body className="min-h-screen" style={{ background: "var(--cream)" }}>
+      <body style={{ minHeight: "100vh", background: "var(--cream)" }}>
         <Navbar />
         <main>{children}</main>
-        <footer className="border-t py-10 text-center text-sm" style={{
-          borderColor: "var(--sand)",
-          color: "var(--stone-dark)",
-          background: "var(--cream-dark)",
-        }}>
-          <p>© {new Date().getFullYear()} Anjali Shrestha &nbsp;·&nbsp; Made with care in Nepal</p>
+        <footer className="footer">
+          © {new Date().getFullYear()} Anjali Shrestha &nbsp;·&nbsp; Made with care in Nepal
         </footer>
       </body>
     </html>

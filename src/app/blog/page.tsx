@@ -11,46 +11,67 @@ export const metadata = {
 export default async function BlogPage() {
   const posts = await getAllPosts();
 
+  // Filter out old coding posts
+  const journalPosts = posts.filter(p =>
+    !["hello-world", "deploying-nextjs-to-vercel", "how-to-get-np-domain-cloudflare"].includes(p.slug)
+  );
+
   return (
-    <div className="min-h-screen pt-28 pb-24 px-6" style={{ background: "var(--cream)" }}>
-      <div className="max-w-3xl mx-auto">
-        <p className="text-xs tracking-widest uppercase mb-4" style={{ color: "var(--stone-dark)", letterSpacing: "0.15em" }}>
-          Journal
-        </p>
-        <h1 className="text-4xl font-normal mb-4" style={{ fontFamily: "var(--font-lora)", color: "var(--ink)", letterSpacing: "-0.02em" }}>
+    <div style={{ minHeight: "100vh", paddingTop: "7rem", paddingBottom: "6rem", background: "var(--cream)" }}>
+      <div style={{ maxWidth: "var(--max-w)", margin: "0 auto", padding: "0 1.5rem" }}>
+        <p className="section-label">Journal</p>
+        <h1 style={{
+          fontFamily: "var(--font-lora), Georgia, serif",
+          fontSize: "clamp(2rem, 5vw, 2.75rem)",
+          fontWeight: 400,
+          color: "var(--ink)",
+          letterSpacing: "-0.02em",
+          marginBottom: "0.75rem",
+        }}>
           All entries
         </h1>
-        <p className="text-base mb-16" style={{ color: "var(--ink-light)" }}>
+        <p style={{ fontSize: "1rem", color: "var(--ink-light)", marginBottom: "4rem", lineHeight: 1.6 }}>
           Slow writing from the places I go and the thoughts I can&apos;t shake.
         </p>
 
-        {posts.length === 0 ? (
+        {journalPosts.length === 0 ? (
           <p style={{ color: "var(--stone-dark)" }}>Nothing here yet. Check back soon.</p>
         ) : (
           <div>
-            {posts.map((post, i) => (
+            {journalPosts.map((post, i) => (
               <div key={post.slug}>
-                {i > 0 && <div className="h-px" style={{ background: "var(--sand)" }} />}
-                <Link href={`/blog/${post.slug}`} className="group flex items-start justify-between py-8 gap-6">
-                  <div className="flex-1">
-                    <h2 className="text-xl font-normal mb-2 transition-colors group-hover:text-[var(--terracotta)]"
-                      style={{ fontFamily: "var(--font-lora)", color: "var(--ink)", lineHeight: 1.4 }}>
+                {i > 0 && <div style={{ height: "1px", background: "var(--sand)" }} />}
+                <Link href={`/blog/${post.slug}`} className="post-row" style={{ display: "flex" }}>
+                  <div style={{ flex: 1 }}>
+                    <h2 style={{
+                      fontFamily: "var(--font-lora), Georgia, serif",
+                      fontSize: "1.25rem",
+                      fontWeight: 400,
+                      color: "var(--ink)",
+                      marginBottom: "0.5rem",
+                      lineHeight: 1.4,
+                      transition: "color 0.15s",
+                    }}>
                       {post.title}
                     </h2>
-                    <p className="text-sm leading-relaxed mb-3" style={{ color: "var(--ink-light)" }}>
+                    <p style={{ fontSize: "0.9rem", color: "var(--ink-light)", lineHeight: 1.65, marginBottom: "0.75rem" }}>
                       {post.description}
                     </p>
                     {post.tags.length > 0 && (
-                      <div className="flex flex-wrap gap-2">
-                        {post.tags.map((tag) => (
-                          <span key={tag} className="text-xs tracking-wide" style={{ color: "var(--stone-dark)" }}>
-                            #{tag}
-                          </span>
+                      <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
+                        {post.tags.map(tag => (
+                          <span key={tag} className="tag">#{tag}</span>
                         ))}
                       </div>
                     )}
                   </div>
-                  <div className="text-xs flex-shrink-0 mt-1" style={{ color: "var(--stone)", fontFamily: "var(--font-geist-mono)" }}>
+                  <div style={{
+                    fontSize: "0.75rem",
+                    color: "var(--stone)",
+                    fontFamily: "var(--font-geist-mono), monospace",
+                    flexShrink: 0,
+                    paddingTop: "0.25rem",
+                  }}>
                     {post.date}
                   </div>
                 </Link>

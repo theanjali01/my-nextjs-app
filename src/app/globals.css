@@ -10,20 +10,99 @@
   --terracotta: #B5673A;
   --terra-soft: #C97E54;
   --sand:       #D9CFC0;
+  --max-w:      680px;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
-
 html { scroll-behavior: smooth; }
 
 body {
   background: var(--cream);
   color: var(--ink);
-  font-family: var(--font-geist-sans), "Georgia", serif;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
-/* Editorial prose for blog */
+/* ── Layout helpers ── */
+.container {
+  width: 100%;
+  max-width: var(--max-w);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+/* ── Navbar ── */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 50;
+  height: 56px;
+  background: rgba(247,244,239,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--sand);
+  display: flex;
+  align-items: center;
+}
+.nav-inner {
+  width: 100%;
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nav-logo {
+  font-family: var(--font-lora), Georgia, serif;
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--ink);
+  text-decoration: none;
+}
+.nav-links { display: flex; align-items: center; gap: 2rem; }
+.nav-link {
+  font-size: 0.8125rem;
+  letter-spacing: 0.04em;
+  color: var(--stone-dark);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.nav-link:hover, .nav-link.active { color: var(--terracotta); }
+
+/* ── Section spacing ── */
+.section { padding: 5rem 1.5rem; }
+.section-label {
+  font-size: 0.6875rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--stone-dark);
+  margin-bottom: 1.25rem;
+}
+
+/* ── Divider ── */
+.divider {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+.divider-line { height: 1px; background: var(--sand); }
+
+/* ── Cards / links ── */
+.post-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 2rem 0;
+  text-decoration: none;
+  color: inherit;
+  transition: color 0.15s;
+}
+.post-row:hover h2, .post-row:hover h3 { color: var(--terracotta); }
+
+/* ── Prose ── */
 .prose {
   color: var(--ink-light);
   max-width: 68ch;
@@ -41,6 +120,7 @@ body {
 .prose h3 { font-size: 1.15rem; }
 .prose p  { margin-bottom: 1.6em; }
 .prose a  { color: var(--terracotta); text-decoration: underline; text-underline-offset: 3px; }
+.prose a:hover { color: var(--terra-soft); }
 .prose blockquote {
   border-left: 2px solid var(--terracotta);
   padding: 0.5em 0 0.5em 1.5em;
@@ -56,26 +136,10 @@ body {
 .prose ol li { list-style-type: decimal; }
 .prose hr { border: none; border-top: 1px solid var(--sand); margin: 3em 0; }
 .prose strong { color: var(--ink); font-weight: 600; }
-.prose code {
-  background: var(--cream-dark);
-  color: var(--terracotta);
-  padding: 0.15em 0.4em;
-  border-radius: 0.25rem;
-  font-size: 0.875em;
-  font-family: var(--font-geist-mono), monospace;
-}
-.prose pre {
-  background: var(--ink);
-  color: var(--cream);
-  padding: 1.5em;
-  border-radius: 0.75rem;
-  overflow-x: auto;
-  margin: 2em 0;
-}
-.prose pre code { background: transparent; color: var(--cream); }
+.prose em { font-style: italic; }
 .prose img {
   width: 100%;
-  border-radius: 0.5rem;
+  border-radius: 0.375rem;
   margin: 2.5em 0;
   display: block;
 }
@@ -87,3 +151,49 @@ body {
   margin-top: 0.75em;
   font-style: italic;
 }
+
+/* ── Footer ── */
+.footer {
+  border-top: 1px solid var(--sand);
+  background: var(--cream-dark);
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  font-size: 0.8125rem;
+  color: var(--stone-dark);
+}
+
+/* ── Buttons / links ── */
+.link-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.875rem;
+  letter-spacing: 0.04em;
+  color: var(--terracotta);
+  text-decoration: none;
+  transition: gap 0.15s;
+}
+.link-arrow:hover { gap: 0.65rem; }
+
+/* ── Image placeholder ── */
+.img-placeholder {
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: var(--cream-dark);
+  border-radius: 0.375rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--stone);
+  font-size: 0.8125rem;
+}
+
+/* ── Tags ── */
+.tag {
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  color: var(--stone-dark);
+}
+
+/* ── Admin (keep dark for usability) ── */
+.admin-body { background: #0f0f0f; color: #f0f0f0; }
