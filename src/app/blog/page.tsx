@@ -4,66 +4,57 @@ import { getAllPosts } from "@/lib/blog";
 export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "Blog — Anjali Shrestha",
-  description: "Thoughts on development, design, and building on the web.",
+  title: "Journal — Anjali Shrestha",
+  description: "A journal of travel, presence, and small discoveries.",
 };
 
 export default async function BlogPage() {
   const posts = await getAllPosts();
 
   return (
-    <div className="min-h-screen px-6 pt-32 pb-24 relative z-10">
-      <div className="fixed inset-0 pointer-events-none" style={{
-        background: "radial-gradient(ellipse 80% 40% at 50% -10%, rgba(213,110,60,0.1) 0%, transparent 60%)",
-      }} />
-
-      <div className="max-w-3xl mx-auto relative">
-        <div className="flex items-center gap-3 mb-4">
-          <div className="h-px w-6" style={{ background: "var(--orange)" }} />
-          <span className="text-xs font-mono tracking-widest uppercase" style={{ color: "var(--orange)" }}>Writing</span>
-        </div>
-        <h1 className="text-4xl md:text-5xl font-bold mb-4" style={{ color: "var(--text-primary)", letterSpacing: "-0.03em" }}>
-          Blog
+    <div className="min-h-screen pt-28 pb-24 px-6" style={{ background: "var(--cream)" }}>
+      <div className="max-w-3xl mx-auto">
+        <p className="text-xs tracking-widest uppercase mb-4" style={{ color: "var(--stone-dark)", letterSpacing: "0.15em" }}>
+          Journal
+        </p>
+        <h1 className="text-4xl font-normal mb-4" style={{ fontFamily: "var(--font-lora)", color: "var(--ink)", letterSpacing: "-0.02em" }}>
+          All entries
         </h1>
-        <p className="mb-16 text-lg" style={{ color: "var(--text-muted)" }}>
-          Thoughts on development, design, and building on the web.
+        <p className="text-base mb-16" style={{ color: "var(--ink-light)" }}>
+          Slow writing from the places I go and the thoughts I can&apos;t shake.
         </p>
 
         {posts.length === 0 ? (
-          <div className="text-center py-24 rounded-2xl border" style={{ borderColor: "var(--border)", background: "var(--bg-card)" }}>
-            <p className="text-lg mb-2" style={{ color: "var(--text-muted)" }}>No posts yet.</p>
-            <p className="text-sm" style={{ color: "var(--text-dim)" }}>Check back soon — something is brewing.</p>
-          </div>
+          <p style={{ color: "var(--stone-dark)" }}>Nothing here yet. Check back soon.</p>
         ) : (
-          <div className="space-y-4">
-            {posts.map((post) => (
-              <Link key={post.slug} href={`/blog/${post.slug}`}
-                className="group flex flex-col md:flex-row md:items-start justify-between p-6 rounded-2xl border transition-all"
-                style={{ background: "var(--bg-card)", borderColor: "var(--border)" }}>
-                <div className="flex-1">
-                  <h2 className="font-semibold text-xl mb-2 transition-colors group-hover:text-[#E8915E]"
-                    style={{ color: "var(--text-primary)" }}>
-                    {post.title}
-                  </h2>
-                  <p className="text-sm leading-relaxed mb-3" style={{ color: "var(--text-muted)" }}>{post.description}</p>
-                  {post.tags.length > 0 && (
-                    <div className="flex flex-wrap gap-2">
-                      {post.tags.map((tag) => (
-                        <span key={tag} className="px-2.5 py-0.5 rounded text-xs font-mono border" style={{
-                          background: "rgba(213,110,60,0.08)",
-                          borderColor: "rgba(213,110,60,0.18)",
-                          color: "#C4A898",
-                        }}>
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                </div>
-                <div className="mt-3 md:mt-0 md:ml-8 flex-shrink-0 text-xs font-mono" style={{ color: "var(--text-dim)" }}>
-                  {post.date}
-                </div>
-              </Link>
+          <div>
+            {posts.map((post, i) => (
+              <div key={post.slug}>
+                {i > 0 && <div className="h-px" style={{ background: "var(--sand)" }} />}
+                <Link href={`/blog/${post.slug}`} className="group flex items-start justify-between py-8 gap-6">
+                  <div className="flex-1">
+                    <h2 className="text-xl font-normal mb-2 transition-colors group-hover:text-[var(--terracotta)]"
+                      style={{ fontFamily: "var(--font-lora)", color: "var(--ink)", lineHeight: 1.4 }}>
+                      {post.title}
+                    </h2>
+                    <p className="text-sm leading-relaxed mb-3" style={{ color: "var(--ink-light)" }}>
+                      {post.description}
+                    </p>
+                    {post.tags.length > 0 && (
+                      <div className="flex flex-wrap gap-2">
+                        {post.tags.map((tag) => (
+                          <span key={tag} className="text-xs tracking-wide" style={{ color: "var(--stone-dark)" }}>
+                            #{tag}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                  <div className="text-xs flex-shrink-0 mt-1" style={{ color: "var(--stone)", fontFamily: "var(--font-geist-mono)" }}>
+                    {post.date}
+                  </div>
+                </Link>
+              </div>
             ))}
           </div>
         )}

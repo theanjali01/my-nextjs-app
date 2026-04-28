@@ -1,245 +1,158 @@
 import Link from "next/link";
 import { getRecentPosts } from "@/lib/blog";
 
-const projects = [
-  {
-    title: "Portfolio & Blog",
-    description: "This site — Next.js 16, Tailwind CSS, MDX blog, Neon Postgres, deployed on Vercel with a custom domain via Cloudflare.",
-    tags: ["Next.js", "Tailwind", "MDX", "Neon", "Vercel"],
-    href: "https://github.com/theanjali01/my-nextjs-app",
-  },
-  {
-    title: "Coming Soon",
-    description: "Working on something exciting. Stay tuned.",
-    tags: ["TBD"],
-    href: "#",
-  },
-];
-
-const skills = ["TypeScript", "React", "Next.js", "Node.js", "Tailwind CSS", "PostgreSQL", "Python", "Docker"];
-
 export default async function Home() {
-  const posts = await getRecentPosts(3);
+  const posts = await getRecentPosts(4);
 
   return (
     <>
-      {/* Ambient glow */}
-      <div className="fixed inset-0 pointer-events-none z-0" style={{
-        background: "radial-gradient(ellipse 80% 50% at 50% -10%, rgba(213,110,60,0.12) 0%, transparent 60%)",
-      }} />
-
       {/* Hero */}
-      <section className="relative min-h-screen flex flex-col justify-center px-6 pt-16 z-10">
-        <div className="max-w-5xl mx-auto w-full">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="h-px w-8" style={{ background: "var(--orange)" }} />
-            <span className="text-xs font-mono tracking-widest uppercase" style={{ color: "var(--orange)" }}>
-              Developer &amp; Writer
-            </span>
-          </div>
-          <h1 className="text-5xl md:text-7xl font-bold tracking-tight leading-[1.1] mb-6" style={{ color: "var(--text-primary)", letterSpacing: "-0.03em" }}>
-            Hi, I&apos;m{" "}
-            <span style={{
-              background: "linear-gradient(135deg, #E8915E 0%, #D56E3C 40%, #C9853A 100%)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-            }}>
-              Anjali Shrestha
-            </span>
-          </h1>
-          <p className="text-xl md:text-2xl max-w-2xl leading-relaxed mb-12" style={{ color: "var(--text-muted)" }}>
-            I build thoughtful things on the web and write about what I learn. Based in Nepal, working globally.
+      <section className="min-h-[90vh] flex flex-col justify-end px-6 pb-20 pt-32" style={{ background: "var(--cream)" }}>
+        <div className="max-w-3xl mx-auto w-full">
+          <p className="text-xs tracking-widest uppercase mb-6" style={{ color: "var(--stone-dark)", letterSpacing: "0.15em" }}>
+            Nepal &nbsp;·&nbsp; Wanderer &nbsp;·&nbsp; Writer
           </p>
-          <div className="flex flex-wrap gap-4">
-            <Link href="/blog" className="px-6 py-3 rounded-xl text-sm font-medium transition-all" style={{
-              background: "linear-gradient(135deg, #D56E3C 0%, #C9853A 100%)",
-              color: "#FFF8F4",
-              boxShadow: "0 0 24px rgba(213,110,60,0.25)",
-            }}>
-              Read the blog
-            </Link>
-            <Link href="#projects" className="px-6 py-3 rounded-xl text-sm font-medium border transition-all" style={{
-              borderColor: "rgba(255,255,255,0.1)",
-              color: "var(--text-muted)",
-            }}>
-              See my work
-            </Link>
-          </div>
-        </div>
-
-        {/* Scroll indicator */}
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2" style={{ color: "var(--text-dim)" }}>
-          <span className="text-xs font-mono tracking-widest">scroll</span>
-          <div className="w-px h-8 animate-pulse" style={{ background: "linear-gradient(to bottom, var(--orange), transparent)" }} />
+          <h1 className="text-5xl md:text-6xl font-normal leading-[1.15] mb-8" style={{
+            fontFamily: "var(--font-lora)",
+            color: "var(--ink)",
+            letterSpacing: "-0.02em",
+          }}>
+            Living slowly,<br />
+            <em>noticing more.</em>
+          </h1>
+          <p className="text-lg leading-relaxed max-w-xl mb-10" style={{ color: "var(--ink-light)" }}>
+            I write about the places I wander, the things I lose, and what stays with me when I return.
+            Sometimes it&apos;s a mountain. Sometimes just a moment of light.
+          </p>
+          <Link href="/blog" className="inline-flex items-center gap-2 text-sm tracking-wide group" style={{ color: "var(--terracotta)", letterSpacing: "0.05em" }}>
+            Read the journal
+            <span className="transition-transform group-hover:translate-x-1">→</span>
+          </Link>
         </div>
       </section>
 
-      {/* Divider */}
-      <div className="max-w-5xl mx-auto px-6 w-full">
-        <div className="h-px" style={{ background: "linear-gradient(to right, transparent, rgba(213,110,60,0.3), transparent)" }} />
+      {/* Thin line */}
+      <div className="max-w-3xl mx-auto px-6">
+        <div className="h-px" style={{ background: "var(--sand)" }} />
       </div>
 
-      {/* About */}
-      <section id="about" className="py-28 px-6 relative z-10">
-        <div className="max-w-5xl mx-auto">
-          <SectionLabel>About</SectionLabel>
-          <h2 className="text-3xl md:text-4xl font-bold mb-10" style={{ color: "var(--text-primary)", letterSpacing: "-0.02em" }}>
-            A little about me
-          </h2>
-          <div className="grid md:grid-cols-2 gap-12">
-            <div className="space-y-5 text-[1.05rem] leading-relaxed" style={{ color: "var(--text-muted)" }}>
-              <p>
-                I&apos;m a developer based in Nepal, passionate about building thoughtful products that sit at the intersection of design and engineering.
-              </p>
-              <p>
-                When I&apos;m not coding, I&apos;m writing — from technical deep-dives to thoughts on building in public. This blog is as much a learning tool for me as anything else.
-              </p>
+      {/* Featured — Mustang */}
+      <section className="py-20 px-6" style={{ background: "var(--cream)" }}>
+        <div className="max-w-3xl mx-auto">
+          <p className="text-xs tracking-widest uppercase mb-10" style={{ color: "var(--stone-dark)", letterSpacing: "0.15em" }}>
+            Latest entry
+          </p>
+
+          <Link href="/blog/mustang-and-the-lost-footage" className="group block">
+            {/* Image placeholder — replace src once you share photos */}
+            <div className="w-full aspect-[16/9] rounded-sm overflow-hidden mb-6" style={{ background: "var(--cream-dark)" }}>
+              <div className="w-full h-full flex items-center justify-center" style={{ color: "var(--stone)" }}>
+                <div className="text-center">
+                  <svg className="w-8 h-8 mx-auto mb-2 opacity-40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                  <p className="text-xs opacity-50">Your Mustang photo goes here</p>
+                </div>
+              </div>
             </div>
+
             <div>
-              <p className="text-sm mb-4" style={{ color: "var(--text-dim)" }}>Technologies I work with</p>
-              <div className="flex flex-wrap gap-2">
-                {skills.map((skill) => (
-                  <span key={skill} className="px-3 py-1.5 rounded-lg text-sm border" style={{
-                    background: "rgba(213,110,60,0.06)",
-                    borderColor: "rgba(213,110,60,0.2)",
-                    color: "#C4A898",
-                  }}>
-                    {skill}
-                  </span>
-                ))}
-              </div>
+              <p className="text-xs tracking-widest uppercase mb-3" style={{ color: "var(--stone-dark)", letterSpacing: "0.12em" }}>
+                Travel &nbsp;·&nbsp; April 2026
+              </p>
+              <h2 className="text-2xl md:text-3xl font-normal leading-snug mb-4 transition-colors group-hover:text-[var(--terracotta)]" style={{
+                fontFamily: "var(--font-lora)",
+                color: "var(--ink)",
+              }}>
+                Mustang and the Lost Footage
+              </h2>
+              <p className="text-base leading-relaxed" style={{ color: "var(--ink-light)" }}>
+                I lost every video I took in Mustang. The wind, the prayer flags, the ochre cliffs at dusk —
+                gone from my hard drive. What I didn&apos;t expect was how little it mattered once I stopped grieving the loss.
+              </p>
+              <span className="inline-flex items-center gap-1.5 text-sm mt-5 group-hover:gap-2.5 transition-all" style={{ color: "var(--terracotta)" }}>
+                Read the story <span>→</span>
+              </span>
             </div>
-          </div>
+          </Link>
         </div>
       </section>
 
-      {/* Projects */}
-      <section id="projects" className="py-28 px-6 relative z-10">
-        <div className="max-w-5xl mx-auto">
-          <SectionLabel>Work</SectionLabel>
-          <h2 className="text-3xl md:text-4xl font-bold mb-12" style={{ color: "var(--text-primary)", letterSpacing: "-0.02em" }}>
-            Selected projects
-          </h2>
-          <div className="grid md:grid-cols-2 gap-5">
-            {projects.map((p) => (
-              <ProjectCard key={p.title} {...p} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Blog */}
+      {/* Recent posts */}
       {posts.length > 0 && (
-        <section className="py-28 px-6 relative z-10">
-          <div className="max-w-5xl mx-auto">
-            <div className="flex items-end justify-between mb-12">
-              <div>
-                <SectionLabel>Writing</SectionLabel>
-                <h2 className="text-3xl md:text-4xl font-bold" style={{ color: "var(--text-primary)", letterSpacing: "-0.02em" }}>
-                  Recent posts
-                </h2>
-              </div>
-              <Link href="/blog" className="text-sm transition-colors pb-1" style={{ color: "var(--orange-light)" }}>
-                View all →
-              </Link>
-            </div>
-            <div className="space-y-4">
-              {posts.map((post) => (
-                <Link key={post.slug} href={`/blog/${post.slug}`}
-                  className="group flex flex-col md:flex-row md:items-center justify-between p-6 rounded-2xl border transition-all"
-                  style={{ background: "var(--bg-card)", borderColor: "var(--border)" }}>
-                  <div>
-                    <h3 className="font-semibold text-lg mb-1 transition-colors group-hover:text-[#E8915E]" style={{ color: "var(--text-primary)" }}>
-                      {post.title}
-                    </h3>
-                    <p className="text-sm" style={{ color: "var(--text-muted)" }}>{post.description}</p>
-                  </div>
-                  <div className="mt-3 md:mt-0 md:ml-8 flex-shrink-0 text-xs font-mono" style={{ color: "var(--text-dim)" }}>
-                    {post.date}
-                  </div>
-                </Link>
+        <section className="py-20 px-6 border-t" style={{ borderColor: "var(--sand)", background: "var(--cream-dark)" }}>
+          <div className="max-w-3xl mx-auto">
+            <p className="text-xs tracking-widest uppercase mb-12" style={{ color: "var(--stone-dark)", letterSpacing: "0.15em" }}>
+              From the journal
+            </p>
+            <div className="space-y-0">
+              {posts.map((post, i) => (
+                <div key={post.slug}>
+                  {i > 0 && <div className="h-px" style={{ background: "var(--sand)" }} />}
+                  <Link href={`/blog/${post.slug}`} className="group flex items-baseline justify-between py-6 gap-6">
+                    <div>
+                      <h3 className="text-lg font-normal leading-snug mb-1.5 transition-colors group-hover:text-[var(--terracotta)]" style={{
+                        fontFamily: "var(--font-lora)",
+                        color: "var(--ink)",
+                      }}>
+                        {post.title}
+                      </h3>
+                      <p className="text-sm leading-relaxed line-clamp-2" style={{ color: "var(--stone-dark)" }}>
+                        {post.description}
+                      </p>
+                    </div>
+                    <div className="text-xs flex-shrink-0" style={{ color: "var(--stone)", fontFamily: "var(--font-geist-mono)" }}>
+                      {post.date}
+                    </div>
+                  </Link>
+                </div>
               ))}
+            </div>
+            <div className="mt-8 pt-8 border-t" style={{ borderColor: "var(--sand)" }}>
+              <Link href="/blog" className="text-sm tracking-wide group inline-flex items-center gap-2" style={{ color: "var(--terracotta)", letterSpacing: "0.05em" }}>
+                All entries <span className="transition-transform group-hover:translate-x-1">→</span>
+              </Link>
             </div>
           </div>
         </section>
       )}
 
-      {/* Contact */}
-      <section id="contact" className="py-28 px-6 relative z-10">
-        <div className="max-w-5xl mx-auto">
-          {/* Glow card */}
-          <div className="relative rounded-3xl p-12 md:p-16 text-center overflow-hidden border" style={{
-            background: "linear-gradient(135deg, rgba(213,110,60,0.08) 0%, rgba(12,12,20,0) 60%)",
-            borderColor: "rgba(213,110,60,0.15)",
-          }}>
-            <div className="absolute inset-0 pointer-events-none" style={{
-              background: "radial-gradient(ellipse 60% 60% at 50% 0%, rgba(213,110,60,0.1) 0%, transparent 70%)",
-            }} />
-            <SectionLabel>Get in touch</SectionLabel>
-            <h2 className="text-3xl md:text-5xl font-bold mb-5 relative" style={{ color: "var(--text-primary)", letterSpacing: "-0.03em" }}>
-              Let&apos;s work together
-            </h2>
-            <p className="max-w-lg mx-auto mb-10 relative" style={{ color: "var(--text-muted)" }}>
-              Whether you have a project in mind, want to collaborate, or just want to say hi — my inbox is always open.
+      {/* About */}
+      <section id="about" className="py-24 px-6 border-t" style={{ borderColor: "var(--sand)", background: "var(--cream)" }}>
+        <div className="max-w-3xl mx-auto grid md:grid-cols-[1fr_2fr] gap-16 items-start">
+          <div>
+            {/* Portrait placeholder */}
+            <div className="w-32 h-32 rounded-full overflow-hidden" style={{ background: "var(--cream-dark)", border: "1px solid var(--sand)" }}>
+              <div className="w-full h-full flex items-center justify-center" style={{ color: "var(--stone)" }}>
+                <svg className="w-10 h-10 opacity-40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div>
+            <p className="text-xs tracking-widest uppercase mb-5" style={{ color: "var(--stone-dark)", letterSpacing: "0.15em" }}>
+              About
             </p>
-            <div className="flex flex-wrap justify-center gap-4 relative">
-              <a href="mailto:antbytelabs@gmail.com" className="px-7 py-3 rounded-xl text-sm font-medium transition-all" style={{
-                background: "linear-gradient(135deg, #D56E3C 0%, #C9853A 100%)",
-                color: "#FFF8F4",
-                boxShadow: "0 0 32px rgba(213,110,60,0.3)",
-              }}>
-                Send an email
-              </a>
-              <a href="https://github.com/theanjali01" target="_blank" rel="noopener noreferrer"
-                className="px-7 py-3 rounded-xl text-sm font-medium border transition-all" style={{
-                  borderColor: "rgba(255,255,255,0.12)",
-                  color: "var(--text-muted)",
-                }}>
-                GitHub
-              </a>
+            <h2 className="text-2xl font-normal mb-6" style={{ fontFamily: "var(--font-lora)", color: "var(--ink)" }}>
+              Hi, I&apos;m Anjali.
+            </h2>
+            <div className="space-y-4 text-base leading-relaxed" style={{ color: "var(--ink-light)" }}>
+              <p>
+                I&apos;m from Nepal, and I spend a lot of time wandering places that don&apos;t have good phone signal.
+                Mustang, Langtang, the backroads that don&apos;t show up on maps.
+              </p>
+              <p>
+                This journal is where I process what I see and feel. It&apos;s not a travel guide —
+                it&apos;s more like letters to myself, written so I don&apos;t forget the texture of things.
+              </p>
+              <p>
+                By day I work in tech. But this space is for the other part of life — the slower, quieter one.
+              </p>
             </div>
           </div>
         </div>
       </section>
     </>
-  );
-}
-
-function SectionLabel({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="flex items-center gap-3 mb-4">
-      <div className="h-px w-6" style={{ background: "var(--orange)" }} />
-      <span className="text-xs font-mono tracking-widest uppercase" style={{ color: "var(--orange)" }}>{children}</span>
-    </div>
-  );
-}
-
-function ProjectCard({ title, description, tags, href }: { title: string; description: string; tags: string[]; href: string }) {
-  return (
-    <a href={href} target={href.startsWith("http") ? "_blank" : undefined} rel="noopener noreferrer"
-      className="group block p-6 rounded-2xl border transition-all"
-      style={{ background: "var(--bg-card)", borderColor: "var(--border)" }}>
-      <div className="flex items-start justify-between mb-3">
-        <h3 className="font-semibold text-lg transition-colors group-hover:text-[#E8915E]" style={{ color: "var(--text-primary)" }}>
-          {title}
-        </h3>
-        <svg className="w-4 h-4 mt-0.5 flex-shrink-0 transition-colors group-hover:text-[#E8915E]" style={{ color: "var(--text-dim)" }}
-          fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-        </svg>
-      </div>
-      <p className="text-sm leading-relaxed mb-5" style={{ color: "var(--text-muted)" }}>{description}</p>
-      <div className="flex flex-wrap gap-2">
-        {tags.map((tag) => (
-          <span key={tag} className="px-2.5 py-0.5 rounded text-xs font-mono border" style={{
-            background: "rgba(213,110,60,0.08)",
-            borderColor: "rgba(213,110,60,0.18)",
-            color: "#C4A898",
-          }}>
-            {tag}
-          </span>
-        ))}
-      </div>
-    </a>
   );
 }
