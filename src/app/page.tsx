@@ -4,8 +4,8 @@ import { getRecentPosts } from "@/lib/blog";
 const projects = [
   {
     title: "Portfolio & Blog",
-    description: "This site — built with Next.js 16, Tailwind CSS, and MDX. Deployed on Vercel with a custom .com.np domain via Cloudflare.",
-    tags: ["Next.js", "Tailwind", "MDX", "Vercel"],
+    description: "This site — Next.js 16, Tailwind CSS, MDX blog, Neon Postgres, deployed on Vercel with a custom domain via Cloudflare.",
+    tags: ["Next.js", "Tailwind", "MDX", "Neon", "Vercel"],
     href: "https://github.com/theanjali01/my-nextjs-app",
   },
   {
@@ -16,65 +16,94 @@ const projects = [
   },
 ];
 
+const skills = ["TypeScript", "React", "Next.js", "Node.js", "Tailwind CSS", "PostgreSQL", "Python", "Docker"];
+
 export default async function Home() {
   const posts = await getRecentPosts(3);
 
   return (
     <>
+      {/* Ambient glow */}
+      <div className="fixed inset-0 pointer-events-none z-0" style={{
+        background: "radial-gradient(ellipse 80% 50% at 50% -10%, rgba(213,110,60,0.12) 0%, transparent 60%)",
+      }} />
+
       {/* Hero */}
-      <section className="min-h-screen flex flex-col justify-center px-6 pt-16">
+      <section className="relative min-h-screen flex flex-col justify-center px-6 pt-16 z-10">
         <div className="max-w-5xl mx-auto w-full">
-          <p className="text-violet-400 text-sm font-mono mb-4 tracking-wider uppercase">Hello, world —</p>
-          <h1 className="text-5xl md:text-7xl font-bold tracking-tight leading-tight mb-6">
-            I&apos;m{" "}
-            <span className="bg-gradient-to-r from-violet-400 via-pink-400 to-orange-400 bg-clip-text text-transparent">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="h-px w-8" style={{ background: "var(--orange)" }} />
+            <span className="text-xs font-mono tracking-widest uppercase" style={{ color: "var(--orange)" }}>
+              Developer &amp; Writer
+            </span>
+          </div>
+          <h1 className="text-5xl md:text-7xl font-bold tracking-tight leading-[1.1] mb-6" style={{ color: "var(--text-primary)", letterSpacing: "-0.03em" }}>
+            Hi, I&apos;m{" "}
+            <span style={{
+              background: "linear-gradient(135deg, #E8915E 0%, #D56E3C 40%, #C9853A 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+            }}>
               Anjali Shrestha
             </span>
           </h1>
-          <p className="text-xl md:text-2xl text-gray-400 max-w-2xl leading-relaxed mb-10">
-            Developer, writer, and builder of things on the web. I craft clean interfaces and share what I learn along the way.
+          <p className="text-xl md:text-2xl max-w-2xl leading-relaxed mb-12" style={{ color: "var(--text-muted)" }}>
+            I build thoughtful things on the web and write about what I learn. Based in Nepal, working globally.
           </p>
           <div className="flex flex-wrap gap-4">
-            <Link
-              href="/blog"
-              className="px-6 py-3 bg-violet-600 hover:bg-violet-500 text-white rounded-xl font-medium transition-colors"
-            >
+            <Link href="/blog" className="px-6 py-3 rounded-xl text-sm font-medium transition-all" style={{
+              background: "linear-gradient(135deg, #D56E3C 0%, #C9853A 100%)",
+              color: "#FFF8F4",
+              boxShadow: "0 0 24px rgba(213,110,60,0.25)",
+            }}>
               Read the blog
             </Link>
-            <Link
-              href="#projects"
-              className="px-6 py-3 border border-white/20 hover:border-white/40 text-gray-300 hover:text-white rounded-xl font-medium transition-colors"
-            >
+            <Link href="#projects" className="px-6 py-3 rounded-xl text-sm font-medium border transition-all" style={{
+              borderColor: "rgba(255,255,255,0.1)",
+              color: "var(--text-muted)",
+            }}>
               See my work
             </Link>
           </div>
         </div>
-        <div className="max-w-5xl mx-auto w-full mt-20">
-          <div className="h-px bg-gradient-to-r from-transparent via-violet-500/50 to-transparent" />
+
+        {/* Scroll indicator */}
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2" style={{ color: "var(--text-dim)" }}>
+          <span className="text-xs font-mono tracking-widest">scroll</span>
+          <div className="w-px h-8 animate-pulse" style={{ background: "linear-gradient(to bottom, var(--orange), transparent)" }} />
         </div>
       </section>
 
+      {/* Divider */}
+      <div className="max-w-5xl mx-auto px-6 w-full">
+        <div className="h-px" style={{ background: "linear-gradient(to right, transparent, rgba(213,110,60,0.3), transparent)" }} />
+      </div>
+
       {/* About */}
-      <section id="about" className="py-24 px-6">
+      <section id="about" className="py-28 px-6 relative z-10">
         <div className="max-w-5xl mx-auto">
-          <p className="text-violet-400 text-sm font-mono mb-3 tracking-wider uppercase">About me</p>
-          <h2 className="text-3xl md:text-4xl font-bold mb-8">A little bit about me</h2>
-          <div className="grid md:grid-cols-2 gap-12 text-gray-400 leading-relaxed text-[1.05rem]">
-            <div className="space-y-4">
+          <SectionLabel>About</SectionLabel>
+          <h2 className="text-3xl md:text-4xl font-bold mb-10" style={{ color: "var(--text-primary)", letterSpacing: "-0.02em" }}>
+            A little about me
+          </h2>
+          <div className="grid md:grid-cols-2 gap-12">
+            <div className="space-y-5 text-[1.05rem] leading-relaxed" style={{ color: "var(--text-muted)" }}>
               <p>
-                I&apos;m a developer based in Nepal, passionate about building thoughtful products that solve real problems. I love working at the intersection of design and engineering.
+                I&apos;m a developer based in Nepal, passionate about building thoughtful products that sit at the intersection of design and engineering.
               </p>
               <p>
-                When I&apos;m not coding, I&apos;m writing about what I&apos;ve learned — from technical deep-dives to thoughts on building in public.
+                When I&apos;m not coding, I&apos;m writing — from technical deep-dives to thoughts on building in public. This blog is as much a learning tool for me as anything else.
               </p>
             </div>
-            <div className="space-y-4">
-              <p>
-                I work primarily with <span className="text-white font-medium">TypeScript, React, and Next.js</span>, and I&apos;m always exploring new tools and frameworks.
-              </p>
-              <div className="flex flex-wrap gap-2 pt-2">
-                {["TypeScript", "React", "Next.js", "Node.js", "Tailwind CSS", "PostgreSQL"].map((skill) => (
-                  <span key={skill} className="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-sm text-gray-300">
+            <div>
+              <p className="text-sm mb-4" style={{ color: "var(--text-dim)" }}>Technologies I work with</p>
+              <div className="flex flex-wrap gap-2">
+                {skills.map((skill) => (
+                  <span key={skill} className="px-3 py-1.5 rounded-lg text-sm border" style={{
+                    background: "rgba(213,110,60,0.06)",
+                    borderColor: "rgba(213,110,60,0.2)",
+                    color: "#C4A898",
+                  }}>
                     {skill}
                   </span>
                 ))}
@@ -85,64 +114,49 @@ export default async function Home() {
       </section>
 
       {/* Projects */}
-      <section id="projects" className="py-24 px-6">
+      <section id="projects" className="py-28 px-6 relative z-10">
         <div className="max-w-5xl mx-auto">
-          <p className="text-violet-400 text-sm font-mono mb-3 tracking-wider uppercase">Work</p>
-          <h2 className="text-3xl md:text-4xl font-bold mb-12">Selected projects</h2>
-          <div className="grid md:grid-cols-2 gap-6">
-            {projects.map((project) => (
-              <a
-                key={project.title}
-                href={project.href}
-                target={project.href.startsWith("http") ? "_blank" : undefined}
-                rel="noopener noreferrer"
-                className="group p-6 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-violet-500/50 transition-all"
-              >
-                <div className="flex items-start justify-between mb-3">
-                  <h3 className="text-lg font-semibold group-hover:text-violet-300 transition-colors">{project.title}</h3>
-                  <svg className="w-4 h-4 text-gray-500 group-hover:text-violet-400 transition-colors mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                  </svg>
-                </div>
-                <p className="text-gray-400 text-sm leading-relaxed mb-4">{project.description}</p>
-                <div className="flex flex-wrap gap-2">
-                  {project.tags.map((tag) => (
-                    <span key={tag} className="px-2 py-0.5 bg-violet-500/10 text-violet-300 rounded text-xs font-mono">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </a>
+          <SectionLabel>Work</SectionLabel>
+          <h2 className="text-3xl md:text-4xl font-bold mb-12" style={{ color: "var(--text-primary)", letterSpacing: "-0.02em" }}>
+            Selected projects
+          </h2>
+          <div className="grid md:grid-cols-2 gap-5">
+            {projects.map((p) => (
+              <ProjectCard key={p.title} {...p} />
             ))}
           </div>
         </div>
       </section>
 
-      {/* Recent Blog Posts */}
+      {/* Blog */}
       {posts.length > 0 && (
-        <section className="py-24 px-6">
+        <section className="py-28 px-6 relative z-10">
           <div className="max-w-5xl mx-auto">
-            <div className="flex items-center justify-between mb-12">
+            <div className="flex items-end justify-between mb-12">
               <div>
-                <p className="text-violet-400 text-sm font-mono mb-3 tracking-wider uppercase">Writing</p>
-                <h2 className="text-3xl md:text-4xl font-bold">Recent posts</h2>
+                <SectionLabel>Writing</SectionLabel>
+                <h2 className="text-3xl md:text-4xl font-bold" style={{ color: "var(--text-primary)", letterSpacing: "-0.02em" }}>
+                  Recent posts
+                </h2>
               </div>
-              <Link href="/blog" className="text-sm text-violet-400 hover:text-violet-300 transition-colors">
+              <Link href="/blog" className="text-sm transition-colors pb-1" style={{ color: "var(--orange-light)" }}>
                 View all →
               </Link>
             </div>
-            <div className="space-y-6">
+            <div className="space-y-4">
               {posts.map((post) => (
-                <Link
-                  key={post.slug}
-                  href={`/blog/${post.slug}`}
-                  className="group flex flex-col md:flex-row md:items-center justify-between p-6 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-violet-500/50 transition-all"
-                >
+                <Link key={post.slug} href={`/blog/${post.slug}`}
+                  className="group flex flex-col md:flex-row md:items-center justify-between p-6 rounded-2xl border transition-all"
+                  style={{ background: "var(--bg-card)", borderColor: "var(--border)" }}>
                   <div>
-                    <h3 className="font-semibold text-lg group-hover:text-violet-300 transition-colors mb-1">{post.title}</h3>
-                    <p className="text-gray-400 text-sm">{post.description}</p>
+                    <h3 className="font-semibold text-lg mb-1 transition-colors group-hover:text-[#E8915E]" style={{ color: "var(--text-primary)" }}>
+                      {post.title}
+                    </h3>
+                    <p className="text-sm" style={{ color: "var(--text-muted)" }}>{post.description}</p>
                   </div>
-                  <div className="mt-3 md:mt-0 md:ml-8 flex-shrink-0 text-sm text-gray-500 font-mono">{post.date}</div>
+                  <div className="mt-3 md:mt-0 md:ml-8 flex-shrink-0 text-xs font-mono" style={{ color: "var(--text-dim)" }}>
+                    {post.date}
+                  </div>
                 </Link>
               ))}
             </div>
@@ -151,31 +165,81 @@ export default async function Home() {
       )}
 
       {/* Contact */}
-      <section id="contact" className="py-24 px-6">
-        <div className="max-w-5xl mx-auto text-center">
-          <p className="text-violet-400 text-sm font-mono mb-3 tracking-wider uppercase">Get in touch</p>
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">Let&apos;s work together</h2>
-          <p className="text-gray-400 max-w-xl mx-auto mb-10 leading-relaxed">
-            Whether you have a project in mind, want to collaborate, or just want to say hi — my inbox is always open.
-          </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <a
-              href="mailto:antbytelabs@gmail.com"
-              className="px-6 py-3 bg-violet-600 hover:bg-violet-500 text-white rounded-xl font-medium transition-colors"
-            >
-              Send an email
-            </a>
-            <a
-              href="https://github.com/theanjali01"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-6 py-3 border border-white/20 hover:border-white/40 text-gray-300 hover:text-white rounded-xl font-medium transition-colors"
-            >
-              GitHub
-            </a>
+      <section id="contact" className="py-28 px-6 relative z-10">
+        <div className="max-w-5xl mx-auto">
+          {/* Glow card */}
+          <div className="relative rounded-3xl p-12 md:p-16 text-center overflow-hidden border" style={{
+            background: "linear-gradient(135deg, rgba(213,110,60,0.08) 0%, rgba(12,12,20,0) 60%)",
+            borderColor: "rgba(213,110,60,0.15)",
+          }}>
+            <div className="absolute inset-0 pointer-events-none" style={{
+              background: "radial-gradient(ellipse 60% 60% at 50% 0%, rgba(213,110,60,0.1) 0%, transparent 70%)",
+            }} />
+            <SectionLabel>Get in touch</SectionLabel>
+            <h2 className="text-3xl md:text-5xl font-bold mb-5 relative" style={{ color: "var(--text-primary)", letterSpacing: "-0.03em" }}>
+              Let&apos;s work together
+            </h2>
+            <p className="max-w-lg mx-auto mb-10 relative" style={{ color: "var(--text-muted)" }}>
+              Whether you have a project in mind, want to collaborate, or just want to say hi — my inbox is always open.
+            </p>
+            <div className="flex flex-wrap justify-center gap-4 relative">
+              <a href="mailto:antbytelabs@gmail.com" className="px-7 py-3 rounded-xl text-sm font-medium transition-all" style={{
+                background: "linear-gradient(135deg, #D56E3C 0%, #C9853A 100%)",
+                color: "#FFF8F4",
+                boxShadow: "0 0 32px rgba(213,110,60,0.3)",
+              }}>
+                Send an email
+              </a>
+              <a href="https://github.com/theanjali01" target="_blank" rel="noopener noreferrer"
+                className="px-7 py-3 rounded-xl text-sm font-medium border transition-all" style={{
+                  borderColor: "rgba(255,255,255,0.12)",
+                  color: "var(--text-muted)",
+                }}>
+                GitHub
+              </a>
+            </div>
           </div>
         </div>
       </section>
     </>
+  );
+}
+
+function SectionLabel({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="flex items-center gap-3 mb-4">
+      <div className="h-px w-6" style={{ background: "var(--orange)" }} />
+      <span className="text-xs font-mono tracking-widest uppercase" style={{ color: "var(--orange)" }}>{children}</span>
+    </div>
+  );
+}
+
+function ProjectCard({ title, description, tags, href }: { title: string; description: string; tags: string[]; href: string }) {
+  return (
+    <a href={href} target={href.startsWith("http") ? "_blank" : undefined} rel="noopener noreferrer"
+      className="group block p-6 rounded-2xl border transition-all"
+      style={{ background: "var(--bg-card)", borderColor: "var(--border)" }}>
+      <div className="flex items-start justify-between mb-3">
+        <h3 className="font-semibold text-lg transition-colors group-hover:text-[#E8915E]" style={{ color: "var(--text-primary)" }}>
+          {title}
+        </h3>
+        <svg className="w-4 h-4 mt-0.5 flex-shrink-0 transition-colors group-hover:text-[#E8915E]" style={{ color: "var(--text-dim)" }}
+          fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+        </svg>
+      </div>
+      <p className="text-sm leading-relaxed mb-5" style={{ color: "var(--text-muted)" }}>{description}</p>
+      <div className="flex flex-wrap gap-2">
+        {tags.map((tag) => (
+          <span key={tag} className="px-2.5 py-0.5 rounded text-xs font-mono border" style={{
+            background: "rgba(213,110,60,0.08)",
+            borderColor: "rgba(213,110,60,0.18)",
+            color: "#C4A898",
+          }}>
+            {tag}
+          </span>
+        ))}
+      </div>
+    </a>
   );
 }
