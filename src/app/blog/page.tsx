@@ -1,17 +1,18 @@
 import Link from "next/link";
 import { getAllPosts } from "@/lib/blog";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = {
   title: "Blog — Anjali Shrestha",
   description: "Thoughts on development, design, and building on the web.",
 };
 
-export default function BlogPage() {
-  const posts = getAllPosts();
+export default async function BlogPage() {
+  const posts = await getAllPosts();
 
   return (
     <div className="min-h-screen px-6 pt-32 pb-24 relative z-10">
-      {/* Ambient */}
       <div className="fixed inset-0 pointer-events-none" style={{
         background: "radial-gradient(ellipse 80% 40% at 50% -10%, rgba(213,110,60,0.1) 0%, transparent 60%)",
       }} />

@@ -24,8 +24,22 @@ export async function initDb() {
       created_at TIMESTAMPTZ DEFAULT NOW()
     )
   `;
+  await sql`
+    CREATE TABLE IF NOT EXISTS blog_posts (
+      id SERIAL PRIMARY KEY,
+      slug TEXT UNIQUE NOT NULL,
+      title TEXT NOT NULL,
+      description TEXT NOT NULL DEFAULT '',
+      content TEXT NOT NULL DEFAULT '',
+      tags TEXT[] NOT NULL DEFAULT '{}',
+      published BOOLEAN NOT NULL DEFAULT false,
+      created_at TIMESTAMPTZ DEFAULT NOW(),
+      updated_at TIMESTAMPTZ DEFAULT NOW()
+    )
+  `;
 }
 
+/* ── Views ── */
 export async function incrementView(slug: string): Promise<number> {
   const sql = getDb();
   if (!sql) return 0;
@@ -46,8 +60,85 @@ export async function getViews(slug: string): Promise<number> {
   return result[0]?.views ?? 0;
 }
 
+/* ── Contact ── */
 export async function saveContactMessage(name: string, email: string, message: string) {
   const sql = getDb();
   if (!sql) return;
   await sql`INSERT INTO contact_messages (name, email, message) VALUES (${name}, ${email}, ${message})`;
+}
+
+/* ── Blog posts (admin-created) ── */
+export interface DbPost {
+  id: number;
+  slug: string;
+  title: string;
+  description: string;
+  content: string;
+  tags: string[];
+  published: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export async function getAllDbPosts(): Promise<DbPost[]> {
+  const sql = getDb();
+  if (!sql) return [];
+  const rows = await sql`SELECT * FROM blog_posts ORDER BY created_at DESC`;
+  return rows as DbPost[];
+}
+
+export async function getPublishedDbPosts(): Promise<DbPost[]> {
+  const sql = getDb();
+  if (!sql) return [];
+  const rows = await sql`SELECT * FROM blog_posts WHERE published = true ORDER BY created_at DESC`;
+  return rows as DbPost[];
+}
+
+export async function getDbPost(slug: string): Promise<DbPost | null> {
+  const sql = getDb();
+  if (!sql) return null;
+  const rows = await sql`SELECT * FROM blog_posts WHERE slug = ${slug} AND published = true`;
+  return (rows[0] as DbPost) ?? null;
+}
+
+export async function getDbPostById(id: number): Promise<DbPost | null> {
+  const sql = getDb();
+  if (!sql) return null;
+  const rows = await sql`SELECT * FROM blog_posts WHERE id = ${id}`;
+  return (rows[0] as DbPost) ?? null;
+}
+
+export async function createDbPost(data: {
+  slug: string; title: string; description: string;
+  content: string; tags: string[]; published: boolean;
+}): Promise<DbPost> {
+  const sql = getDb()!;
+  const rows = await sql`
+    INSERT INTO blog_posts (slug, title, description, content, tags, published)
+    VALUES (${data.slug}, ${data.title}, ${data.description}, ${data.content}, ${data.tags}, ${data.published})
+    RETURNING *
+  `;
+  return rows[0] as DbPost;
+}
+
+export async function updateDbPost(id: number, data: {
+  slug: string; title: string; description: string;
+  content: string; tags: string[]; published: boolean;
+}): Promise<DbPost> {
+  const sql = getDb()!;
+  const rows = await sql`
+    UPDATE blog_posts
+    SET slug=${data.slug}, title=${data.title}, description=${data.description},
+        content=${data.content}, tags=${data.tags}, published=${data.published},
+        updated_at=NOW()
+    WHERE id=${id}
+    RETURNING *
+  `;
+  return rows[0] as DbPost;
+}
+
+export async function deleteDbPost(id: number) {
+  const sql = getDb();
+  if (!sql) return;
+  await sql`DELETE FROM blog_posts WHERE id = ${id}`;
 }

@@ -1,0 +1,159 @@
+---
+title: "How to Get a Free .com.np Domain and Connect it to Cloudflare"
+description: "A complete step-by-step guide for Nepalis — from registering your free .com.np domain at register.com.np, to managing DNS with Cloudflare, to pointing it at Vercel."
+date: "2026-04-28"
+tags: ["nepal", "domain", ".np", "cloudflare", "vercel", "guide"]
+---
+
+Nepal offers free `.com.np` domains to Nepali citizens and organizations. This guide walks you through the entire process — from registration to having your site live at `yourname.com.np`.
+
+## What you'll need
+
+- A Nepali citizenship card or passport (for verification)
+- A working email address
+- About 30 minutes
+
+---
+
+## Step 1: Register at Mercantile (register.com.np)
+
+The `.np` domain registry is managed by **Mercantile Communications**, Nepal's official ccTLD authority.
+
+1. Go to **[register.com.np](https://register.com.np)**
+2. Click **"Check Availability"** and search for your desired domain
+3. If available, click **"Register"**
+4. Fill in the registration form:
+   - **Registrant Name** — your full legal name
+   - **Organization** — optional (leave blank for personal domains)
+   - **Email** — use a reliable address you check regularly
+   - **Phone** — Nepali phone number
+
+### Document requirements
+
+You'll need to upload **one of**:
+
+| Document | Accepted format |
+|---|---|
+| Citizenship card | Scanned front & back, PDF or JPG |
+| Passport | Photo page, PDF or JPG |
+| Company registration | For `.org.np` or `.net.np` |
+
+5. Upload your document and submit
+6. **Wait for approval** — this typically takes **1–5 business days** (manual review)
+7. You'll receive a confirmation email with your domain login credentials
+
+> **Tip:** Use a clear, well-lit scan. Blurry documents are the most common reason for rejection and delay.
+
+---
+
+## Step 2: Log in and set Cloudflare nameservers
+
+Once approved, log in at `register.com.np` and update your nameservers to point to Cloudflare. This lets Cloudflare manage your DNS instead of Mercantile's basic panel.
+
+### First, create a Cloudflare account
+
+1. Go to **[cloudflare.com](https://cloudflare.com)** → **Sign Up** (free)
+2. Click **"Add a Site"** → enter your domain (e.g. `anjalishrestha.com.np`)
+3. Select the **Free plan**
+4. Cloudflare will scan for existing DNS records — click **Continue**
+5. Cloudflare gives you **two nameservers**, something like:
+   ```
+   abel.ns.cloudflare.com
+   rose.ns.cloudflare.com
+   ```
+   Copy these — you'll need them in the next step.
+
+### Update nameservers at register.com.np
+
+1. Log back into your account at `register.com.np`
+2. Go to **"My Domains"** → click your domain → **"Manage"**
+3. Find the **Nameservers** section
+4. Replace the existing nameservers with the two Cloudflare ones:
+   ```
+   abel.ns.cloudflare.com
+   rose.ns.cloudflare.com
+   ```
+5. Save changes
+
+> Nameserver propagation takes **up to 24 hours**, but usually completes within 1–2 hours for `.np` domains.
+
+---
+
+## Step 3: Add DNS records in Cloudflare
+
+Now that Cloudflare controls your DNS, you can add records to point your domain wherever you want.
+
+### For Vercel (recommended)
+
+Go to **Cloudflare Dashboard → your domain → DNS → Add record**
+
+**Root domain (`anjalishrestha.com.np`):**
+```
+Type:    A
+Name:    @
+Value:   76.76.21.21
+Proxy:   OFF (grey cloud) ← important!
+TTL:     Auto
+```
+
+**www subdomain:**
+```
+Type:    CNAME
+Name:    www
+Value:   cname.vercel-dns.com
+Proxy:   OFF (grey cloud)
+TTL:     Auto
+```
+
+> Keep the **orange proxy cloud OFF**. Vercel manages its own SSL via Let's Encrypt. If Cloudflare proxies traffic too, you'll get SSL certificate conflicts.
+
+---
+
+## Step 4: Add the domain in Vercel
+
+1. Go to your **Vercel project → Settings → Domains**
+2. Type in `anjalishrestha.com.np` → **Add**
+3. Also add `www.anjalishrestha.com.np`
+4. If Vercel says **"Verification Needed"** (because your domain was previously on another Vercel account), add a TXT record:
+   ```
+   Type:    TXT
+   Name:    _vercel
+   Value:   vc-domain-verify=... (copy from Vercel)
+   Proxy:   OFF
+   ```
+5. Click **Refresh** in Vercel — it should turn green within a few minutes
+
+---
+
+## Step 5: Set up automatic www → root redirect
+
+In Vercel, set `anjalishrestha.com.np` as the primary domain. Vercel will automatically redirect `www` to the root (or vice versa — your choice).
+
+In **Vercel → Domains**, drag or set `www.anjalishrestha.com.np` as the redirect target. Done!
+
+---
+
+## Troubleshooting
+
+| Problem | Fix |
+|---|---|
+| "Verification Needed" in Vercel | Add the `_vercel` TXT record at Cloudflare |
+| Domain not resolving | Wait up to 24h for nameserver propagation; check with `dig NS anjalishrestha.com.np` |
+| SSL error | Make sure Cloudflare proxy is **OFF** for Vercel domains |
+| Application rejected | Re-upload clearer document scans to register.com.np |
+| Nameserver change not saving | Contact Mercantile support at `hostmaster@mos.com.np` |
+
+---
+
+## Summary
+
+| Step | Time |
+|---|---|
+| Register domain at register.com.np | 5 min |
+| Wait for approval | 1–5 business days |
+| Create Cloudflare account + get nameservers | 5 min |
+| Update nameservers at Mercantile | 2 min |
+| Wait for propagation | Up to 24h (usually 1–2h) |
+| Add DNS records + connect to Vercel | 5 min |
+
+Your `.com.np` domain is completely **free** — no annual renewal fees, no credit card required. Nepal's registry offers this as a public service for its citizens. Take advantage of it!
