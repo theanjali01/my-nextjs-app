@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { getRecentPosts } from "@/lib/blog";
 
 export default async function Home() {
@@ -47,15 +48,21 @@ export default async function Home() {
       {/* Divider */}
       <div className="divider"><div className="divider-line" /></div>
 
-      {/* Featured post — Mustang */}
+      {/* Featured — Mustang */}
       <section className="section" style={{ background: "var(--cream)" }}>
         <div style={{ maxWidth: "var(--max-w)", margin: "0 auto", width: "100%" }}>
           <p className="section-label">Latest entry</p>
 
           <Link href="/blog/mustang-and-the-lost-footage" style={{ textDecoration: "none", color: "inherit", display: "block" }}>
-            {/* Image — placeholder until you share photos */}
-            <div className="img-placeholder" style={{ marginBottom: "1.75rem" }}>
-              <span style={{ opacity: 0.4 }}>Your Mustang photo goes here</span>
+            <div style={{ marginBottom: "1.75rem", borderRadius: "0.375rem", overflow: "hidden" }}>
+              <Image
+                src="/images/mustang/IMG_0877.jpg"
+                alt="Standing above the Mustang valley, snow peaks behind"
+                width={1200}
+                height={1600}
+                style={{ width: "100%", height: "auto", display: "block" }}
+                priority
+              />
             </div>
 
             <p className="section-label">Travel &nbsp;·&nbsp; April 2026</p>
@@ -67,14 +74,12 @@ export default async function Home() {
               color: "var(--ink)",
               marginBottom: "1rem",
               letterSpacing: "-0.01em",
-              transition: "color 0.15s",
-            }}
-              className="featured-title">
+            }}>
               Mustang and the Lost Footage
             </h2>
             <p style={{ fontSize: "1rem", lineHeight: 1.75, color: "var(--ink-light)", marginBottom: "1.25rem" }}>
-              I lost every video I took in Mustang. The wind, the prayer flags, the ochre cliffs at dusk —
-              gone from my hard drive. What I didn&apos;t expect was how little it mattered once I stopped grieving the loss.
+              I lost 80% of the clips I loved most from Mustang. The ones I had replayed in my head on the drive home —
+              gone. What I didn&apos;t expect was what that loss would teach me.
             </p>
             <span className="link-arrow">Read the story →</span>
           </Link>
@@ -136,18 +141,19 @@ export default async function Home() {
       <section id="about" className="section" style={{ borderTop: "1px solid var(--sand)", background: "var(--cream)" }}>
         <div style={{
           maxWidth: "var(--max-w)", margin: "0 auto", width: "100%",
-          display: "grid", gridTemplateColumns: "auto 1fr", gap: "3rem", alignItems: "start",
+          display: "grid", gridTemplateColumns: "96px 1fr", gap: "3rem", alignItems: "start",
         }}>
-          {/* Portrait placeholder */}
           <div style={{
             width: "96px", height: "96px", borderRadius: "50%",
-            background: "var(--cream-dark)", border: "1px solid var(--sand)",
-            display: "flex", alignItems: "center", justifyContent: "center",
-            color: "var(--stone)", flexShrink: 0,
+            overflow: "hidden", border: "1px solid var(--sand)", flexShrink: 0,
           }}>
-            <svg width="32" height="32" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ opacity: 0.35 }}>
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-            </svg>
+            <Image
+              src="/images/mustang/IMG_0877.jpg"
+              alt="Anjali Shrestha"
+              width={200}
+              height={280}
+              style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top" }}
+            />
           </div>
 
           <div>
