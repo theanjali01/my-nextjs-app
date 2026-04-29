@@ -21,50 +21,49 @@ export default function AdminLogin() {
     if (res.ok) {
       router.push("/admin");
     } else {
-      setError("Invalid password.");
+      setError("Wrong password.");
       setLoading(false);
     }
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-6">
-      <div className="w-full max-w-sm">
-        <div className="mb-8 text-center">
-          <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl mb-4" style={{
-            background: "linear-gradient(135deg, #D56E3C 0%, #C9853A 100%)",
-          }}>
-            <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-            </svg>
-          </div>
-          <h1 className="text-2xl font-bold" style={{ color: "var(--text-primary)" }}>Admin Login</h1>
-          <p className="text-sm mt-1" style={{ color: "var(--text-muted)" }}>Enter your password to continue</p>
+    <div style={{
+      minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center",
+      background: "#FAFAF8", padding: "1.5rem",
+    }}>
+      <div style={{ width: "100%", maxWidth: "360px" }}>
+        <div style={{ textAlign: "center", marginBottom: "2.5rem" }}>
+          <svg width="40" height="40" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style={{ marginBottom: "1rem" }}>
+            <rect width="100" height="100" rx="20" fill="#BB764E"/>
+            <text x="50%" y="60%" textAnchor="middle" fontFamily="Arial, sans-serif" fontSize="50" fontWeight="bold" fill="#F7F4EF">a.</text>
+          </svg>
+          <h1 style={{ fontSize: "1.25rem", fontWeight: 600, color: "#2C2620", marginBottom: "0.25rem" }}>Welcome back</h1>
+          <p style={{ fontSize: "0.875rem", color: "#9E9080" }}>Sign in to manage your journal</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Password"
-              required
-              className="w-full px-4 py-3 rounded-xl text-sm outline-none transition-all"
-              style={{
-                background: "var(--bg-card)",
-                border: "1px solid var(--border)",
-                color: "var(--text-primary)",
-              }}
-            />
-          </div>
-          {error && <p className="text-sm text-red-400">{error}</p>}
+        <form onSubmit={handleSubmit}>
+          <input
+            type="password"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+            placeholder="Password"
+            required
+            autoFocus
+            style={{
+              width: "100%", padding: "0.875rem 1rem", marginBottom: "0.75rem",
+              border: "1px solid #D9CFC0", borderRadius: "0.625rem",
+              background: "#fff", color: "#2C2620", fontSize: "0.9375rem",
+              outline: "none", boxSizing: "border-box",
+            }}
+          />
+          {error && <p style={{ fontSize: "0.8125rem", color: "#B5453A", marginBottom: "0.75rem" }}>{error}</p>}
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 rounded-xl text-sm font-medium transition-all disabled:opacity-50"
             style={{
-              background: "linear-gradient(135deg, #D56E3C 0%, #C9853A 100%)",
-              color: "#FFF8F4",
+              width: "100%", padding: "0.875rem", border: "none", borderRadius: "0.625rem",
+              background: "#BB764E", color: "#FFF8F4", fontSize: "0.9375rem",
+              fontWeight: 500, cursor: "pointer", opacity: loading ? 0.7 : 1,
             }}
           >
             {loading ? "Signing in…" : "Sign in"}

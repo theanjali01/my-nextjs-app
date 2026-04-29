@@ -9,23 +9,24 @@ interface Post {
   description: string; published: boolean; created_at: string;
 }
 
+const S = {
+  wrap: { maxWidth: "760px", margin: "0 auto", padding: "0 1.5rem" },
+  card: { background: "#fff", border: "1px solid #EDE8E0", borderRadius: "0.75rem" },
+};
+
 export default function AdminDashboard() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
-  async function loadPosts() {
-    const res = await fetch("/api/admin/posts");
-    if (res.ok) setPosts(await res.json());
-    setLoading(false);
-  }
-
-  useEffect(() => { loadPosts(); }, []);
+  useEffect(() => {
+    fetch("/api/admin/posts").then(r => r.json()).then(d => { setPosts(d); setLoading(false); });
+  }, []);
 
   async function handleDelete(id: number, title: string) {
     if (!confirm(`Delete "${title}"?`)) return;
     await fetch(`/api/admin/posts/${id}`, { method: "DELETE" });
-    setPosts((p) => p.filter((x) => x.id !== id));
+    setPosts(p => p.filter(x => x.id !== id));
   }
 
   async function handleLogout() {
@@ -33,105 +34,106 @@ export default function AdminDashboard() {
     router.push("/admin/login");
   }
 
+  const published = posts.filter(p => p.published).length;
+  const drafts = posts.filter(p => !p.published).length;
+
   return (
-    <div className="min-h-screen px-6 pt-24 pb-16">
-      <div className="max-w-4xl mx-auto">
+    <div style={{ paddingTop: "3rem", paddingBottom: "4rem" }}>
+      <div style={S.wrap}>
+
         {/* Header */}
-        <div className="flex items-center justify-between mb-10">
-          <div>
-            <h1 className="text-3xl font-bold" style={{ color: "var(--text-primary)", letterSpacing: "-0.02em" }}>
-              Admin
-            </h1>
-            <p className="text-sm mt-1" style={{ color: "var(--text-muted)" }}>Manage your blog posts</p>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "2.5rem" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "0.875rem" }}>
+            <svg width="32" height="32" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+              <rect width="100" height="100" rx="20" fill="#BB764E"/>
+              <text x="50%" y="60%" textAnchor="middle" fontFamily="Arial, sans-serif" fontSize="50" fontWeight="bold" fill="#F7F4EF">a.</text>
+            </svg>
+            <div>
+              <h1 style={{ fontSize: "1.125rem", fontWeight: 600, color: "#2C2620" }}>Journal</h1>
+              <p style={{ fontSize: "0.75rem", color: "#9E9080" }}>Your writing, all in one place</p>
+            </div>
           </div>
-          <div className="flex items-center gap-3">
-            <Link href="/blog" className="text-sm px-4 py-2 rounded-lg border transition-all" style={{
-              borderColor: "var(--border)", color: "var(--text-muted)",
-            }}>
-              View blog ↗
+          <div style={{ display: "flex", gap: "0.625rem" }}>
+            <Link href="/" style={{ fontSize: "0.8125rem", color: "#9E9080", textDecoration: "none", padding: "0.5rem 0.875rem", border: "1px solid #D9CFC0", borderRadius: "0.5rem" }}>
+              ← Site
             </Link>
-            <Link href="/admin/posts/new" className="text-sm px-4 py-2 rounded-lg font-medium transition-all" style={{
-              background: "linear-gradient(135deg, #D56E3C 0%, #C9853A 100%)",
-              color: "#FFF8F4",
-            }}>
-              + New post
+            <Link href="/admin/posts/new" style={{ fontSize: "0.8125rem", color: "#FFF8F4", background: "#BB764E", textDecoration: "none", padding: "0.5rem 0.875rem", borderRadius: "0.5rem", fontWeight: 500 }}>
+              + New entry
             </Link>
-            <button onClick={handleLogout} className="text-sm px-4 py-2 rounded-lg border transition-all" style={{
-              borderColor: "rgba(239,68,68,0.3)", color: "#f87171",
-            }}>
-              Logout
+            <button onClick={handleLogout} style={{ fontSize: "0.8125rem", color: "#9E9080", background: "none", border: "1px solid #D9CFC0", borderRadius: "0.5rem", padding: "0.5rem 0.875rem", cursor: "pointer" }}>
+              Sign out
             </button>
           </div>
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-3 gap-4 mb-10">
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1rem", marginBottom: "2rem" }}>
           {[
-            { label: "Total posts", value: posts.length },
-            { label: "Published", value: posts.filter(p => p.published).length },
-            { label: "Drafts", value: posts.filter(p => !p.published).length },
-          ].map((s) => (
-            <div key={s.label} className="p-5 rounded-2xl border" style={{ background: "var(--bg-card)", borderColor: "var(--border)" }}>
-              <div className="text-3xl font-bold mb-1" style={{ color: "var(--text-primary)" }}>{s.value}</div>
-              <div className="text-sm" style={{ color: "var(--text-muted)" }}>{s.label}</div>
+            { label: "Total entries", value: posts.length },
+            { label: "Published", value: published },
+            { label: "Drafts", value: drafts },
+          ].map(s => (
+            <div key={s.label} style={{ ...S.card, padding: "1.25rem 1.5rem" }}>
+              <div style={{ fontSize: "2rem", fontWeight: 600, color: "#2C2620", lineHeight: 1 }}>{s.value}</div>
+              <div style={{ fontSize: "0.8125rem", color: "#9E9080", marginTop: "0.375rem" }}>{s.label}</div>
             </div>
           ))}
         </div>
 
-        {/* Posts table */}
-        <div className="rounded-2xl border overflow-hidden" style={{ borderColor: "var(--border)" }}>
-          <div className="px-6 py-4 border-b" style={{ background: "var(--bg-card)", borderColor: "var(--border)" }}>
-            <h2 className="font-semibold" style={{ color: "var(--text-primary)" }}>Posts</h2>
+        {/* Posts list */}
+        <div style={S.card}>
+          <div style={{ padding: "1rem 1.5rem", borderBottom: "1px solid #EDE8E0", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+            <span style={{ fontSize: "0.875rem", fontWeight: 500, color: "#2C2620" }}>Entries</span>
           </div>
 
           {loading ? (
-            <div className="px-6 py-12 text-center" style={{ color: "var(--text-muted)" }}>Loading…</div>
+            <div style={{ padding: "3rem", textAlign: "center", color: "#9E9080", fontSize: "0.875rem" }}>Loading…</div>
           ) : posts.length === 0 ? (
-            <div className="px-6 py-16 text-center">
-              <p className="mb-3" style={{ color: "var(--text-muted)" }}>No posts yet.</p>
-              <Link href="/admin/posts/new" className="text-sm" style={{ color: "var(--orange-light)" }}>
-                Write your first post →
-              </Link>
+            <div style={{ padding: "4rem", textAlign: "center" }}>
+              <p style={{ color: "#9E9080", fontSize: "0.9375rem", marginBottom: "1rem" }}>No entries yet.</p>
+              <Link href="/admin/posts/new" style={{ fontSize: "0.875rem", color: "#BB764E", textDecoration: "none" }}>Write your first entry →</Link>
             </div>
           ) : (
-            <div className="divide-y divide-white/[0.06]">
-              {posts.map((post) => (
-                <div key={post.id} className="flex items-center justify-between px-6 py-4 transition-colors hover:bg-white/[0.02]">
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-3 mb-0.5">
-                      <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-mono ${
-                        post.published
-                          ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
-                          : "bg-yellow-500/10 text-yellow-400 border border-yellow-500/20"
-                      }`}>
-                        {post.published ? "published" : "draft"}
-                      </span>
-                      <p className="text-xs font-mono truncate" style={{ color: "var(--text-dim)" }}>/{post.slug}</p>
-                    </div>
-                    <h3 className="font-medium truncate" style={{ color: "var(--text-primary)" }}>{post.title}</h3>
-                    <p className="text-sm truncate mt-0.5" style={{ color: "var(--text-muted)" }}>{post.description}</p>
-                  </div>
-                  <div className="flex items-center gap-2 ml-4 flex-shrink-0">
-                    <Link href={`/blog/${post.slug}`} className="text-xs px-3 py-1.5 rounded-lg border transition-all" style={{
-                      borderColor: "var(--border)", color: "var(--text-muted)",
+            posts.map((post, i) => (
+              <div key={post.id} style={{
+                padding: "1.125rem 1.5rem",
+                borderTop: i === 0 ? "none" : "1px solid #EDE8E0",
+                display: "flex", alignItems: "center", justifyContent: "space-between", gap: "1rem",
+              }}>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: "0.625rem", marginBottom: "0.25rem" }}>
+                    <span style={{
+                      fontSize: "0.6875rem", fontWeight: 500, padding: "0.15rem 0.5rem", borderRadius: "100px",
+                      background: post.published ? "#EDFAF3" : "#FEF9EC",
+                      color: post.published ? "#1A7A4A" : "#92610A",
+                      border: `1px solid ${post.published ? "#B6EDD4" : "#F5DFAB"}`,
                     }}>
-                      View
-                    </Link>
-                    <Link href={`/admin/posts/${post.id}`} className="text-xs px-3 py-1.5 rounded-lg border transition-all" style={{
-                      borderColor: "rgba(213,110,60,0.3)", color: "var(--orange-light)",
-                    }}>
-                      Edit
-                    </Link>
-                    <button onClick={() => handleDelete(post.id, post.title)}
-                      className="text-xs px-3 py-1.5 rounded-lg border transition-all" style={{
-                        borderColor: "rgba(239,68,68,0.2)", color: "#f87171",
-                      }}>
-                      Delete
-                    </button>
+                      {post.published ? "Published" : "Draft"}
+                    </span>
+                    <span style={{ fontSize: "0.75rem", color: "#C4BAA8", fontFamily: "var(--font-geist-mono), monospace" }}>
+                      {new Date(post.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                    </span>
                   </div>
+                  <p style={{ fontSize: "0.9375rem", fontWeight: 500, color: "#2C2620", marginBottom: "0.125rem", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                    {post.title}
+                  </p>
+                  <p style={{ fontSize: "0.8125rem", color: "#9E9080", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                    {post.description}
+                  </p>
                 </div>
-              ))}
-            </div>
+                <div style={{ display: "flex", gap: "0.5rem", flexShrink: 0 }}>
+                  <Link href={`/blog/${post.slug}`} target="_blank" style={{ fontSize: "0.8125rem", color: "#9E9080", textDecoration: "none", padding: "0.375rem 0.75rem", border: "1px solid #D9CFC0", borderRadius: "0.375rem" }}>
+                    View
+                  </Link>
+                  <Link href={`/admin/posts/${post.id}`} style={{ fontSize: "0.8125rem", color: "#BB764E", textDecoration: "none", padding: "0.375rem 0.75rem", border: "1px solid #D9CFC0", borderRadius: "0.375rem" }}>
+                    Edit
+                  </Link>
+                  <button onClick={() => handleDelete(post.id, post.title)} style={{ fontSize: "0.8125rem", color: "#B5453A", background: "none", border: "1px solid #EDE8E0", borderRadius: "0.375rem", padding: "0.375rem 0.75rem", cursor: "pointer" }}>
+                    Delete
+                  </button>
+                </div>
+              </div>
+            ))
           )}
         </div>
       </div>

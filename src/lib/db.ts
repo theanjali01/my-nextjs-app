@@ -31,12 +31,14 @@ export async function initDb() {
       title TEXT NOT NULL,
       description TEXT NOT NULL DEFAULT '',
       content TEXT NOT NULL DEFAULT '',
+      cover_image TEXT NOT NULL DEFAULT '',
       tags TEXT[] NOT NULL DEFAULT '{}',
       published BOOLEAN NOT NULL DEFAULT false,
       created_at TIMESTAMPTZ DEFAULT NOW(),
       updated_at TIMESTAMPTZ DEFAULT NOW()
     )
   `;
+  await sql`ALTER TABLE blog_posts ADD COLUMN IF NOT EXISTS cover_image TEXT NOT NULL DEFAULT ''`;
 }
 
 /* ── Views ── */
@@ -74,6 +76,7 @@ export interface DbPost {
   title: string;
   description: string;
   content: string;
+  cover_image: string;
   tags: string[];
   published: boolean;
   created_at: string;
@@ -114,12 +117,12 @@ export async function getDbPostById(id: number): Promise<DbPost | null> {
 
 export async function createDbPost(data: {
   slug: string; title: string; description: string;
-  content: string; tags: string[]; published: boolean;
+  content: string; cover_image: string; tags: string[]; published: boolean;
 }): Promise<DbPost> {
   const sql = getDb()!;
   const rows = await sql`
-    INSERT INTO blog_posts (slug, title, description, content, tags, published)
-    VALUES (${data.slug}, ${data.title}, ${data.description}, ${data.content}, ${data.tags}, ${data.published})
+    INSERT INTO blog_posts (slug, title, description, content, cover_image, tags, published)
+    VALUES (${data.slug}, ${data.title}, ${data.description}, ${data.content}, ${data.cover_image}, ${data.tags}, ${data.published})
     RETURNING *
   `;
   return rows[0] as DbPost;
@@ -127,14 +130,14 @@ export async function createDbPost(data: {
 
 export async function updateDbPost(id: number, data: {
   slug: string; title: string; description: string;
-  content: string; tags: string[]; published: boolean;
+  content: string; cover_image: string; tags: string[]; published: boolean;
 }): Promise<DbPost> {
   const sql = getDb()!;
   const rows = await sql`
     UPDATE blog_posts
     SET slug=${data.slug}, title=${data.title}, description=${data.description},
-        content=${data.content}, tags=${data.tags}, published=${data.published},
-        updated_at=NOW()
+        content=${data.content}, cover_image=${data.cover_image}, tags=${data.tags},
+        published=${data.published}, updated_at=NOW()
     WHERE id=${id}
     RETURNING *
   `;

@@ -11,8 +11,8 @@ export async function GET() {
 export async function POST(req: NextRequest) {
   await initDb();
   const body = await req.json();
-  const { slug, title, description, content, tags, published } = body;
+  const { slug, title, description, content, cover_image, tags, published } = body;
   if (!slug || !title) return NextResponse.json({ error: "slug and title required" }, { status: 400 });
-  const post = await createDbPost({ slug, title, description: description ?? "", content: content ?? "", tags: tags ?? [], published: published ?? false });
+  const post = await createDbPost({ slug, title, description: description ?? "", content: content ?? "", cover_image: cover_image ?? "", tags: tags ?? [], published: published ?? false });
   return NextResponse.json(post);
 }

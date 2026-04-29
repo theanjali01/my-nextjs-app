@@ -11,8 +11,8 @@ export async function GET(_: NextRequest, { params }: { params: Promise<{ id: st
 export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const body = await req.json();
-  const { slug, title, description, content, tags, published } = body;
-  const post = await updateDbPost(Number(id), { slug, title, description, content, tags, published });
+  const { slug, title, description, content, cover_image, tags, published } = body;
+  const post = await updateDbPost(Number(id), { slug, title, description, content, cover_image: cover_image ?? "", tags, published });
   return NextResponse.json(post);
 }
 
