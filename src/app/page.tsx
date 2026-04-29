@@ -56,8 +56,8 @@ export default async function Home() {
           <Link href="/blog/mustang-and-the-lost-footage" style={{ textDecoration: "none", color: "inherit", display: "block" }}>
             <div style={{ marginBottom: "1.75rem", borderRadius: "0.375rem", overflow: "hidden" }}>
               <Image
-                src="/images/mustang/IMG_4627.jpg"
-                alt="On the road to Mustang — snow peaks and open sky"
+                src="/images/mustang/IMG_4989.jpg"
+                alt="Turquoise lake on the road to Mustang, prayer flags in the distance"
                 width={1200}
                 height={1600}
                 style={{ width: "100%", height: "auto", display: "block" }}
@@ -148,7 +148,7 @@ export default async function Home() {
             overflow: "hidden", border: "1px solid var(--sand)", flexShrink: 0,
           }}>
             <Image
-              src="/images/mustang/IMG_4627.jpg"
+              src="/images/mustang/profile.jpg"
               alt="Anjali Shrestha"
               width={200}
               height={280}
