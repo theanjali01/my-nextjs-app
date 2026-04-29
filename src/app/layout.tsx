@@ -10,6 +10,7 @@ const lora = Lora({ variable: "--font-lora", subsets: ["latin"], style: ["normal
 export const metadata: Metadata = {
   title: "Anjali Shrestha",
   description: "A journal of travel, presence, and small discoveries from Nepal.",
+  icons: { icon: "/favicon.svg", shortcut: "/favicon.svg" },
   openGraph: {
     title: "Anjali Shrestha",
     description: "A journal of travel, presence, and small discoveries.",
