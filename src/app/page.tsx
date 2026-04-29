@@ -56,8 +56,8 @@ export default async function Home() {
           <Link href="/blog/mustang-and-the-lost-footage" style={{ textDecoration: "none", color: "inherit", display: "block" }}>
             <div style={{ marginBottom: "1.75rem", borderRadius: "0.375rem", overflow: "hidden" }}>
               <Image
-                src="/images/mustang/IMG_0877.jpg"
-                alt="Standing above the Mustang valley, snow peaks behind"
+                src="/images/mustang/IMG_4627.jpg"
+                alt="On the road to Mustang — snow peaks and open sky"
                 width={1200}
                 height={1600}
                 style={{ width: "100%", height: "auto", display: "block" }}
@@ -148,7 +148,7 @@ export default async function Home() {
             overflow: "hidden", border: "1px solid var(--sand)", flexShrink: 0,
           }}>
             <Image
-              src="/images/mustang/IMG_0877.jpg"
+              src="/images/mustang/IMG_4627.jpg"
               alt="Anjali Shrestha"
               width={200}
               height={280}
@@ -169,12 +169,12 @@ export default async function Home() {
             </h2>
             <div style={{ display: "flex", flexDirection: "column", gap: "1rem", fontSize: "1rem", lineHeight: 1.75, color: "var(--ink-light)" }}>
               <p>
-                I&apos;m from Nepal, and I spend a lot of time in places without phone signal —
-                Mustang, Langtang, backroads that don&apos;t show up on maps.
+                I&apos;m from Nepal. I travel when I can, and I write about what I find —
+                not just the places, but what they leave behind.
               </p>
               <p>
-                This journal is where I slow down enough to write. It&apos;s not a travel guide.
-                It&apos;s more like letters I write to myself so I don&apos;t forget the texture of things.
+                This journal is where I slow down enough to think. It&apos;s not a travel guide.
+                More like letters I write to myself so I don&apos;t forget the texture of things.
               </p>
             </div>
           </div>
