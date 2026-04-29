@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Lora } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
+import NavbarWrapper from "@/components/NavbarWrapper";
+import FooterWrapper from "@/components/FooterWrapper";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
@@ -22,11 +23,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable} ${lora.variable}`}>
       <body style={{ minHeight: "100vh", background: "var(--cream)" }}>
-        <Navbar />
+        <NavbarWrapper />
         <main>{children}</main>
-        <footer className="footer">
-          © {new Date().getFullYear()} Anjali Shrestha &nbsp;·&nbsp; Made with care in Nepal
-        </footer>
+        <FooterWrapper />
       </body>
     </html>
   );
