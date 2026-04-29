@@ -17,7 +17,12 @@ export default function Navbar() {
   return (
     <nav className="nav">
       <div className="nav-inner">
-        <Link href="/" className="nav-logo">Anjali Shrestha</Link>
+        <Link href="/" aria-label="Home">
+          <svg width="32" height="32" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <rect width="100" height="100" rx="20" fill="#BB764E"/>
+            <text x="50%" y="60%" textAnchor="middle" fontFamily="Arial, sans-serif" fontSize="50" fontWeight="bold" fill="#F7F4EF">a.</text>
+          </svg>
+        </Link>
 
         {/* Desktop */}
         <div className="nav-links" style={{ display: "flex" }}>
