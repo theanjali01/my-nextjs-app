@@ -51,20 +51,63 @@ The clips I lost were beautiful. But maybe they were always meant to stay in Mus
 
 *The trip was in early 2026. I went with two friends and a driver who kept stopping to pray at roadside shrines, which added about three hours to every journey and which I now think was the right call.*`;
 
+const overlookContent = `There is a specific kind of not-seeing that happens when something has been there long enough.
+
+Not blindness. You can describe the thing. You know it exists. But you stopped actually looking at it somewhere along the way — the way you stop hearing a fan in the background, the way a scar on your hand becomes just part of your hand.
+
+I noticed this about my own city recently. I've walked the same stretch of road for years. Temples I've passed hundreds of times, a chautara under a pipal tree where old men sit every morning, a painted wall that someone clearly cared about once. I know they are there. But I haven't *seen* them in a long time.
+
+---
+
+It happens with people too, maybe more than anything else.
+
+There is someone in most of our lives who has been so consistently present that we've stopped registering them with fresh eyes. A parent who has quietly rearranged their life around yours. A friend who always picks up when you call, so you've stopped noticing what a thing that is. A neighbor who nods every morning, whose name you never learned.
+
+We reserve our attention for what is new or loud or threatening. Everything else gets filed under *familiar* and left there.
+
+---
+
+I think familiarity is one of the stranger tricks the mind plays on us. It presents itself as knowledge — *I know this, I know this person, I know this place* — but what it often means is: I have stopped updating my understanding of this thing. I took a snapshot a long time ago and I have been looking at the snapshot ever since.
+
+The actual thing kept changing. The person kept changing. And I missed it, not through any malice, but through the quiet autopilot of routine.
+
+---
+
+What would it mean to look again?
+
+Not dramatically. Not with some forced gratitude exercise or a list you write and forget. Just — the next time you are somewhere you have been a hundred times, or with someone you have known for years, to let yourself be slightly uncertain. To admit that you might not have the full picture. To look the way you looked the first time, when you didn't yet know what to expect.
+
+It is a small thing. It costs almost nothing.
+
+But I think a lot of what we call loneliness, or boredom, or the feeling that life has gone flat — some of that is just this. The world didn't get smaller. We just stopped looking at it.`;
+
 export async function POST() {
   await initDb();
   const existing = await getAllDbPosts();
-  if (existing.find(p => p.slug === "mustang-and-the-lost-footage")) {
-    return NextResponse.json({ message: "Already seeded" });
+
+  if (!existing.find(p => p.slug === "mustang-and-the-lost-footage")) {
+    await createDbPost({
+      slug: "mustang-and-the-lost-footage",
+      title: "Mustang and the Lost Footage",
+      description: "I lost 80% of the clips I loved most from Mustang. What I didn't expect was what that loss would teach me.",
+      content: mustangContent,
+      cover_image: "/images/mustang/IMG_4989.jpg",
+      tags: ["mustang", "travel", "nepal", "presence"],
+      published: true,
+    });
   }
-  await createDbPost({
-    slug: "mustang-and-the-lost-footage",
-    title: "Mustang and the Lost Footage",
-    description: "I lost 80% of the clips I loved most from Mustang. What I didn't expect was what that loss would teach me.",
-    content: mustangContent,
-    cover_image: "/images/mustang/IMG_4989.jpg",
-    tags: ["mustang", "travel", "nepal", "presence"],
-    published: true,
-  });
+
+  if (!existing.find(p => p.slug === "what-we-overlook")) {
+    await createDbPost({
+      slug: "what-we-overlook",
+      title: "What We Overlook",
+      description: "Familiarity presents itself as knowledge. But most of the time, it just means we stopped looking.",
+      content: overlookContent,
+      cover_image: "",
+      tags: ["presence", "attention", "everyday"],
+      published: true,
+    });
+  }
+
   return NextResponse.json({ message: "Seeded successfully" });
 }

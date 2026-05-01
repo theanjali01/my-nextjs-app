@@ -34,42 +34,10 @@ body {
 }
 
 /* ── Navbar ── */
-.nav {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 50;
-  height: 56px;
-  background: rgba(247,244,239,0.92);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--sand);
-  display: flex;
-  align-items: center;
+@media (max-width: 600px) {
+  .pill-nav { display: none !important; }
+  .mobile-nav-trigger { display: flex !important; }
 }
-.nav-inner {
-  width: 100%;
-  max-width: var(--max-w);
-  margin: 0 auto;
-  padding: 0 1.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.nav-logo {
-  font-family: var(--font-lora), Georgia, serif;
-  font-style: italic;
-  font-size: 1rem;
-  color: var(--ink);
-  text-decoration: none;
-}
-.nav-links { display: flex; align-items: center; gap: 2rem; }
-.nav-link {
-  font-size: 0.8125rem;
-  letter-spacing: 0.04em;
-  color: var(--stone-dark);
-  text-decoration: none;
-  transition: color 0.15s;
-}
-.nav-link:hover, .nav-link.active { color: var(--terracotta); }
 
 /* ── Section spacing ── */
 .section { padding: 5rem 1.5rem; }
@@ -193,6 +161,19 @@ body {
   font-size: 0.75rem;
   letter-spacing: 0.04em;
   color: var(--stone-dark);
+}
+
+/* ── About page grid ── */
+@media (max-width: 768px) {
+  .about-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ── Mobile nav ── */
+@media (max-width: 640px) {
+  .nav-links { display: none !important; }
+  .mobile-toggle { display: flex !important; }
 }
 
 /* ── Admin (keep dark for usability) ── */

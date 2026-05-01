@@ -62,11 +62,47 @@ export async function getViews(slug: string): Promise<number> {
   return result[0]?.views ?? 0;
 }
 
+export async function getAllViews(): Promise<Record<string, number>> {
+  const sql = getDb();
+  if (!sql) return {};
+  const rows = await sql`SELECT slug, views FROM post_views`;
+  const map: Record<string, number> = {};
+  for (const r of rows as { slug: string; views: number }[]) map[r.slug] = r.views;
+  return map;
+}
+
 /* ── Contact ── */
 export async function saveContactMessage(name: string, email: string, message: string) {
   const sql = getDb();
   if (!sql) return;
   await sql`INSERT INTO contact_messages (name, email, message) VALUES (${name}, ${email}, ${message})`;
+}
+
+export interface ContactMessage {
+  id: number; name: string; email: string; message: string; created_at: string;
+}
+
+export async function getContactMessages(): Promise<ContactMessage[]> {
+  const sql = getDb();
+  if (!sql) return [];
+  const rows = await sql`SELECT * FROM contact_messages ORDER BY created_at DESC`;
+  return rows as ContactMessage[];
+}
+
+export async function deleteContactMessage(id: number) {
+  const sql = getDb();
+  if (!sql) return;
+  await sql`DELETE FROM contact_messages WHERE id = ${id}`;
+}
+
+export async function togglePublished(id: number, published: boolean): Promise<DbPost | null> {
+  const sql = getDb();
+  if (!sql) return null;
+  const rows = await sql`
+    UPDATE blog_posts SET published=${published}, updated_at=NOW()
+    WHERE id=${id} RETURNING *
+  `;
+  return (rows[0] as DbPost) ?? null;
 }
 
 /* ── Blog posts (admin-created) ── */

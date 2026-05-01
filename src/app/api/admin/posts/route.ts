@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getAllDbPosts, createDbPost } from "@/lib/db";
+import { getAllDbPosts, createDbPost, getAllViews } from "@/lib/db";
 import { initDb } from "@/lib/db";
 
 export async function GET() {
   await initDb();
-  const posts = await getAllDbPosts();
-  return NextResponse.json(posts);
+  const [posts, views] = await Promise.all([getAllDbPosts(), getAllViews()]);
+  return NextResponse.json(posts.map(p => ({ ...p, views: views[p.slug] ?? 0 })));
 }
 
 export async function POST(req: NextRequest) {

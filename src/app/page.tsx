@@ -9,12 +9,10 @@ export default async function Home() {
     <>
       {/* Hero */}
       <section style={{
-        minHeight: "100vh",
         display: "flex",
         flexDirection: "column",
-        justifyContent: "flex-end",
-        padding: "0 1.5rem 5rem",
-        paddingTop: "7rem",
+        justifyContent: "center",
+        padding: "8rem 1.5rem 5rem",
         background: "var(--cream)",
       }}>
         <div style={{ maxWidth: "var(--max-w)", margin: "0 auto", width: "100%" }}>
@@ -41,7 +39,7 @@ export default async function Home() {
             I write about the places I wander, the things I lose, and what stays with me when I return.
             Sometimes it&apos;s a mountain. Sometimes just a moment of light.
           </p>
-          <Link href="/blog" className="link-arrow">Read the journal →</Link>
+          <Link href="/journal" className="link-arrow">Read the journal →</Link>
         </div>
       </section>
 
@@ -53,13 +51,13 @@ export default async function Home() {
         <div style={{ maxWidth: "var(--max-w)", margin: "0 auto", width: "100%" }}>
           <p className="section-label">Latest entry</p>
 
-          <Link href="/blog/mustang-and-the-lost-footage" style={{ textDecoration: "none", color: "inherit", display: "block" }}>
+          <Link href="/journal/mustang-and-the-lost-footage" style={{ textDecoration: "none", color: "inherit", display: "block" }}>
             <div style={{ marginBottom: "1.75rem", borderRadius: "0.375rem", overflow: "hidden" }}>
               <Image
                 src="/images/mustang/IMG_4989.jpg"
                 alt="Turquoise lake on the road to Mustang, prayer flags in the distance"
                 width={1200}
-                height={1600}
+                height={900}
                 style={{ width: "100%", height: "auto", display: "block" }}
                 priority
               />
@@ -99,7 +97,7 @@ export default async function Home() {
               {posts.map((post, i) => (
                 <div key={post.slug}>
                   {i > 0 && <div style={{ height: "1px", background: "var(--sand)" }} />}
-                  <Link href={`/blog/${post.slug}`} className="post-row" style={{ display: "flex" }}>
+                  <Link href={`/journal/${post.slug}`} className="post-row" style={{ display: "flex" }}>
                     <div style={{ flex: 1 }}>
                       <h3 style={{
                         fontFamily: "var(--font-lora), Georgia, serif",
@@ -131,11 +129,56 @@ export default async function Home() {
             </div>
 
             <div style={{ marginTop: "2rem", paddingTop: "2rem", borderTop: "1px solid var(--sand)" }}>
-              <Link href="/blog" className="link-arrow">All entries →</Link>
+              <Link href="/journal" className="link-arrow">All entries →</Link>
             </div>
           </div>
         </section>
       )}
+
+      {/* Currently */}
+      <section className="section" style={{ borderTop: "1px solid var(--sand)", background: "var(--cream)" }}>
+        <div style={{ maxWidth: "var(--max-w)", margin: "0 auto", width: "100%" }}>
+          <p className="section-label">Currently</p>
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
+            gap: "2.5rem",
+            marginTop: "1.5rem",
+          }}>
+            {[
+              { label: "Reading", primary: "The Snow Leopard", secondary: "Peter Matthiessen" },
+              { label: "Listening", primary: "Resonance of Rain", secondary: "Nitin Sawhney" },
+              { label: "Wandering", primary: "Pokhara, Nepal", secondary: "Lakeside, slowly" },
+            ].map((item) => (
+              <div key={item.label}>
+                <p style={{
+                  fontSize: "0.7rem",
+                  letterSpacing: "0.15em",
+                  textTransform: "uppercase",
+                  color: "var(--stone)",
+                  fontFamily: "var(--font-geist-mono), monospace",
+                  marginBottom: "0.75rem",
+                }}>
+                  {item.label}
+                </p>
+                <p style={{
+                  fontFamily: "var(--font-lora), Georgia, serif",
+                  fontSize: "1.125rem",
+                  fontStyle: "italic",
+                  color: "var(--ink)",
+                  lineHeight: 1.4,
+                  marginBottom: "0.25rem",
+                }}>
+                  {item.primary}
+                </p>
+                <p style={{ fontSize: "0.875rem", color: "var(--ink-light)", lineHeight: 1.5 }}>
+                  {item.secondary}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* About */}
       <section id="about" className="section" style={{ borderTop: "1px solid var(--sand)", background: "var(--cream)" }}>
@@ -169,12 +212,12 @@ export default async function Home() {
             </h2>
             <div style={{ display: "flex", flexDirection: "column", gap: "1rem", fontSize: "1rem", lineHeight: 1.75, color: "var(--ink-light)" }}>
               <p>
-                I&apos;m from Nepal. I travel when I can, and I write about what I find —
-                not just the places, but what they leave behind.
+                I&apos;m a software developer from Nepal. I spend my days building things,
+                and my time off trying to get as far from a screen as possible.
               </p>
               <p>
-                This journal is where I slow down enough to think. It&apos;s not a travel guide.
-                More like letters I write to myself so I don&apos;t forget the texture of things.
+                This journal is where I slow down enough to think — about travel, presence,
+                and the things you only notice when you stop looking for them.
               </p>
             </div>
           </div>
