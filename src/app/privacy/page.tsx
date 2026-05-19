@@ -72,7 +72,7 @@ export default function PrivacyPage() {
             <h2>Your rights</h2>
             <p>
               You can ask me to delete any message you sent through the contact form at any time. Write to me at{" "}
-              <a href="mailto:antbytelabs@gmail.com">antbytelabs@gmail.com</a>.
+              <a href="mailto:anjalish6061@gmail.com">anjalish6061@gmail.com</a>.
             </p>
 
             <h2>Changes</h2>
