@@ -64,6 +64,7 @@ export default async function BlogPage() {
                         ))}
                       </div>
                     )}
+                    {/* note: tag links live on the post page to avoid nested anchors */}
                   </div>
                   <div style={{
                     fontSize: "0.75rem",

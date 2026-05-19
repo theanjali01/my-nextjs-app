@@ -4,7 +4,9 @@ import { getAllPosts, getPost } from "@/lib/blog";
 import { getViews } from "@/lib/db";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import remarkGfm from "remark-gfm";
+import readingTime from "reading-time";
 import ViewTracker from "@/components/ViewTracker";
+import AdSlot from "@/components/AdSlot";
 
 export const dynamic = "force-dynamic";
 
@@ -33,6 +35,12 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   if (!post) notFound();
 
   const initialViews = await getViews(slug);
+  const readStats = readingTime(post.content);
+
+  const allPosts = await getAllPosts();
+  const related = allPosts
+    .filter((p) => p.slug !== slug && p.tags.some((t) => post.tags.includes(t)))
+    .slice(0, 3);
 
   return (
     <div style={{ minHeight: "100vh", paddingTop: "7rem", paddingBottom: "6rem", background: "var(--cream)" }}>
@@ -51,7 +59,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         {post.tags.length > 0 && (
           <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap", marginBottom: "1.25rem" }}>
             {post.tags.map(tag => (
-              <span key={tag} className="tag">#{tag}</span>
+              <Link key={tag} href={`/journal/tag/${tag}`} className="tag" style={{ textDecoration: "none" }}>#{tag}</Link>
             ))}
           </div>
         )}
@@ -100,6 +108,8 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           <span>·</span>
           <span>Anjali Shrestha</span>
           <span>·</span>
+          <span>{readStats.text}</span>
+          <span>·</span>
           <ViewTracker slug={slug} initial={initialViews} />
         </div>
 
@@ -107,6 +117,30 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         <div className="prose">
           <MDXRemote source={post.content} options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }} />
         </div>
+
+        {/* Ad: end of post */}
+        <div style={{ marginTop: "3rem" }}>
+          <AdSlot slot="1234567890" />
+        </div>
+
+        {/* Related */}
+        {related.length > 0 && (
+          <div style={{ marginTop: "4rem", paddingTop: "2.5rem", borderTop: "1px solid var(--sand)" }}>
+            <p className="section-label" style={{ marginBottom: "1.5rem" }}>If you liked this</p>
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {related.map((r) => (
+                <Link key={r.slug} href={`/journal/${r.slug}`} style={{ textDecoration: "none" }}>
+                  <h3 style={{
+                    fontFamily: "var(--font-lora), Georgia, serif",
+                    fontSize: "1.125rem", fontWeight: 400, color: "var(--ink)",
+                    marginBottom: "0.35rem", lineHeight: 1.4,
+                  }}>{r.title}</h3>
+                  <p style={{ fontSize: "0.9rem", color: "var(--ink-light)", lineHeight: 1.55 }}>{r.description}</p>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Back */}
         <div style={{ marginTop: "4rem", paddingTop: "2.5rem", borderTop: "1px solid var(--sand)" }}>
